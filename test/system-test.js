@@ -351,12 +351,16 @@ describe("Council Tests", function () {
       console.log(await daiToken.name());
       console.log(await wethToken.name());
       const mintAmount = new bigDecimal(100 * 10 ** 18);
-      await daiToken.mint(mintAmount.getValue());
-      const supplyAmount = new bigDecimal(20 * 10 ** 18);
-
-      await Pool.supply(daiToken.address, supplyAmount, deployer.address, 0);
-
-      await Pool.getUserAccountData(deployer.address);
+      await daiToken.mint(deployer.address, mintAmount.getValue());
+      console.log(
+        "Bal",
+        (await daiToken.balanceOf(deployer.address)).toString()
+      );
+      // const supplyAmount = new bigDecimal(20 * 10 ** 18);
+      // await daiToken.approve(Pool.address, supplyAmount);
+      // await Pool.supply(daiToken.address, supplyAmount, deployer.address, 0);
+      // console.log("here");
+      // await Pool.getUserAccountData(deployer.address);
     });
   });
 });

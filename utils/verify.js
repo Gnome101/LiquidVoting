@@ -15,7 +15,13 @@
 //     }
 //   }
 // };
-
-module.exports = {
-  verify,
-};
+// if (
+//   !developmentChains.includes(network.name) &&
+//   process.env.ETHERSCAN_API_KEY
+// ) {
+//   log("Verifying...");
+//   await verify(ContractName.address, args);
+// }
+// module.exports = {
+//   verify,
+// };
