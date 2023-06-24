@@ -14,7 +14,14 @@ const {
 const bigDecimal = require("js-big-decimal");
 describe("Council Tests", function () {
   //This is every contract or that we will call on/use
-  let hogToken, Treasury, timeLock, coreVoting, mockWeth, HOGWETHPool;
+  let hogToken,
+    Treasury,
+    timeLock,
+    coreVoting,
+    mockWeth,
+    HOGWETHPool,
+    NFTPositionManager,
+    Factory;
 
   const hundy = ethers.utils.parseEther("100");
   const ten = ethers.utils.parseEther("10");
@@ -23,12 +30,16 @@ describe("Council Tests", function () {
     deployer = accounts[0];
     user = accounts[1];
     await deployments.fixture(["all"]);
-    hogToken = await ethers.getContract("MockHog");
+    mockHog = await ethers.getContract("MockHog");
     mockWeth = await ethers.getContract("MockWeth");
     Treasury = await ethers.getContract("Treasury");
     timeLock = await ethers.getContract("Timelock");
     coreVoting = await ethers.getContract("CoreVoting");
     friendlyVault = await ethers.getContract("FriendlyVault");
+    NFTPositionManager = await ethers.getContractAt(
+      "INonfungiblePositionManager",
+      "0xc36442b4a4522e871399cd717abdd847ab11fe88"
+    );
   });
   it("all contracts exist", async () => {
     hogToken.address;
@@ -69,17 +80,17 @@ describe("Council Tests", function () {
       const decimals = 18;
       //Price of one Hogwell in EPICDai
       let price = 1;
-      //let sqrtPrice;
+      let sqrtPrice;
 
       //Need to sort before hand of coruse
       let erc20Address = [mockWeth.address, mockHog.address];
       erc20Address = erc20Address.sort();
 
-      // if (erc20Address[0] == HOGWELL.address) {
-      //   sqrtPrice = calculateSqrtPriceX96(price, decimals, decimals);
-      // } else {
-      //   sqrtPrice = calculateSqrtPriceX96(1 / price, decimals, decimals);
-      // }
+      if (erc20Address[0] == mockHog.address) {
+        sqrtPrice = calculateSqrtPriceX96(price, decimals, decimals);
+      } else {
+        sqrtPrice = calculateSqrtPriceX96(1 / price, decimals, decimals);
+      }
       //This is important if the token already has liquidity or not
       await NFTPositionManager.createAndInitializePoolIfNecessary(
         erc20Address[0], // The token addresses need to be sorted
@@ -89,10 +100,9 @@ describe("Council Tests", function () {
       );
 
       const realPrice = calculatePriceFromX96(sqrtPrice, decimals, decimals);
-      const factoryAddy = await leveragedV3Manager.uniswapFactory();
       Factory = await ethers.getContractAt(
         "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol:IUniswapV3Factory",
-        factoryAddy
+        "0x1F98431c8aD98523631AE4a59f267346ea31F984"
       );
 
       const hogWEThPool = await Factory.getPool(
@@ -106,8 +116,8 @@ describe("Council Tests", function () {
         hogWEThPool
       );
       //This the starting slot0 of the HOGWELL/EPIC pool I just made
-      const slot0 = await HOGEPICPool.slot0();
-      const tickSpacing = await HOGEPICPool.tickSpacing();
+      const slot0 = await HOGWETHPool.slot0();
+      const tickSpacing = await HOGWETHPool.tickSpacing();
       let nearestTick = getNearestUsableTick(parseInt(slot0.tick), tickSpacing);
       //Choose arbitarry tick for testing
       const lowerTick = nearestTick - tickSpacing * 100;
@@ -116,6 +126,18 @@ describe("Council Tests", function () {
       const token1Amount = new bigDecimal(10 ** 18);
 
       console.log(token0Amount.getValue());
+      const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+      await mockWeth.setBalance(deployer.address, token0Amount.getValue());
+      await mockHog.setBalance(deployer.address, token0Amount.getValue());
+
+      await mockWeth.approve(
+        NFTPositionManager.address,
+        token0Amount.getValue()
+      );
+      await mockHog.approve(
+        NFTPositionManager.address,
+        token1Amount.getValue()
+      );
       const mintParams = {
         token0: erc20Address[0],
         token1: erc20Address[1],
@@ -132,7 +154,7 @@ describe("Council Tests", function () {
       await NFTPositionManager.mint(mintParams);
     });
     it("user can build a v3 position 121", async () => {
-      console.log(HOGWETHPool.addre);
+      console.log("HOG", HOGWETHPool.address);
       //I will need an NFT position manager
       //   const v3Info = {
       //     lowerBound:

@@ -1,5 +1,5 @@
 const { BigNumber } = require("bignumber.js");
-
+const Q192 = BigNumber(2).exponentiatedBy(192);
 module.exports = {
   sleep: (ms) => {
     return new Promise((resolve) => {

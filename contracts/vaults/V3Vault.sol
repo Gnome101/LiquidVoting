@@ -5,7 +5,6 @@ import "../libraries/History.sol";
 import "../libraries/Storage.sol";
 import "./IERC721.sol";
 import "./IVotingVault.sol";
-
 import "../interfaces/INonfungiblePositionManager.sol";
 
 contract NFTVault is IVotingVault {

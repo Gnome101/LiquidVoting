@@ -8,7 +8,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   console.log("dep", deployer);
   let args = ["HOG", "HOG", deployer];
   //They deploy a governnace token first
-  const HOG = await deploy("mockHOG", {
+  const HOG = await deploy("MockHog", {
     from: deployer,
     args: args,
     log: true,
@@ -16,7 +16,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
   args = ["WETH", "WETH", deployer];
 
-  const mockWeth = await deploy("mockWeth", {
+  const mockWeth = await deploy("MockWeth", {
     from: deployer,
     args: args,
     log: true,
