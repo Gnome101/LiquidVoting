@@ -10,12 +10,17 @@ require("dotenv").config();
  * @type import('hardhat/config').HardhatUserConfig
  */
 
-const MAINNET_RPC_URL =
-  process.env.MAINNET_RPC_URL ||
-  process.env.ALCHEMY_MAINNET_RPC_URL ||
-  "https://eth-mainnet.alchemyapi.io/v2/your-api-key";
+// const MAINNET_RPC_URL =
+//   process.env.MAINNET_RPC_URL ||
+//   process.env.ALCHEMY_MAINNET_RPC_URL ||
+//   "https://eth-mainnet.alchemyapi.io/v2/your-api-key";
+
+const MAINNET_RPC_URL = process.env.GOERLI_RPC_URL;
 const RINKEBY_RPC_URL =
   process.env.RINKEBY_RPC_URL ||
+  "https://eth-rinkeby.alchemyapi.io/v2/your-api-key";
+const GOERLI_RPC_URL =
+  process.env.GOERLI_RPC_URL ||
   "https://eth-rinkeby.alchemyapi.io/v2/your-api-key";
 
 const POLYGON_MAINNET_RPC_URL =
@@ -36,12 +41,21 @@ module.exports = {
     hardhat: {
       forking: {
         url: MAINNET_RPC_URL,
-        blockNumber: 16403320,
+        blockNumber: 9234561,
       },
       chainId: 31337,
     },
     localhost: {
       chainId: 31337,
+    },
+    goerli: {
+      url: GOERLI_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      //   accounts: {
+      //     mnemonic: MNEMONIC,
+      //   },
+      saveDeployments: true,
+      chainId: 5,
     },
     rinkeby: {
       url: RINKEBY_RPC_URL,
@@ -78,7 +92,7 @@ module.exports = {
   solidity: {
     compilers: [
       {
-        version: "0.8.18",
+        version: "0.8.10",
         settings: {
           optimizer: {
             enabled: true,

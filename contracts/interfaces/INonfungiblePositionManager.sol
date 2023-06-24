@@ -11,6 +11,8 @@ import "@uniswap/v3-periphery/contracts/interfaces/IPeripheryPayments.sol";
 import "@uniswap/v3-periphery/contracts/interfaces/IPeripheryImmutableState.sol";
 import "@uniswap/v3-periphery/contracts/libraries/PoolAddress.sol";
 
+import "@aave/core-v3/contracts/interfaces/IPool.sol";
+
 /// @title Non-fungible token for positions
 /// @notice Wraps Uniswap V3 positions in a non-fungible token interface which allows for them to be transferred
 /// and authorized.

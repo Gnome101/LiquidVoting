@@ -6,6 +6,7 @@ import "../libraries/History.sol";
 import "../libraries/VestingVaultStorage.sol";
 import "../libraries/Storage.sol";
 import "../interfaces/IVotingVault.sol";
+import "@aave/core-v3/contracts/mocks/tokens/MintableERC20.sol";
 
 contract FriendlyVault is IVotingVault {
     // extraData encodes a uint128 of votes to give to the user via abi.encode

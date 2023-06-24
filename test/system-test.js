@@ -233,7 +233,7 @@ describe("Council Tests", function () {
       );
       console.log(votingPower2.toString());
     });
-    it("user can build a v3 position 121", async () => {
+    it("user can build a v3 position ", async () => {
       console.log("HOG", HOGWETHPool.address);
       const slot0 = await HOGWETHPool.slot0();
       const tickSpacing = await HOGWETHPool.tickSpacing();
@@ -325,6 +325,38 @@ describe("Council Tests", function () {
         blankAddy
       );
       console.log(votingPower2.toString());
+    });
+  });
+  describe("Spark testing 121", () => {
+    it("I can interact with spark", async () => {
+      //Pool is the main user facing
+      const daiToken = await ethers.getContractAt(
+        "IERC20Mint",
+        "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844"
+      );
+      const wethToken = await ethers.getContractAt(
+        "IERC20Mint",
+        "0x7D5afF7ab67b431cDFA6A94d50d3124cC4AB2611"
+      );
+
+      const Pool = await ethers.getContractAt(
+        "@aave/core-v3/contracts/interfaces/IPool.sol:IPool",
+        "0x7D5afF7ab67b431cDFA6A94d50d3124cC4AB2611"
+      );
+
+      // const sDAi = await ethers.getContractAt(
+      //   "@aave/core-v3/contracts/interfaces/IPool.sol:IPool",
+      //   "0x7D5afF7ab67b431cDFA6A94d50d3124cC4AB2611"
+      // );
+      console.log(await daiToken.name());
+      console.log(await wethToken.name());
+      const mintAmount = new bigDecimal(100 * 10 ** 18);
+      await daiToken.mint(mintAmount.getValue());
+      const supplyAmount = new bigDecimal(20 * 10 ** 18);
+
+      await Pool.supply(daiToken.address, supplyAmount, deployer.address, 0);
+
+      await Pool.getUserAccountData(deployer.address);
     });
   });
 });

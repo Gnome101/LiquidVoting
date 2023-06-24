@@ -1,0 +1,454 @@
+{
+  "address": "0xa2eD20C94c694E0e746Fb5B331C121E110Cf5919",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_waitTime",
+          "type": "uint256"
+        },
+        {
+          "internalType": "address",
+          "name": "_governance",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "_gsc",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "who",
+          "type": "address"
+        }
+      ],
+      "name": "authorize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "name": "authorized",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "callTimestamps",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "who",
+          "type": "address"
+        }
+      ],
+      "name": "deauthorize",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "targets",
+          "type": "address[]"
+        },
+        {
+          "internalType": "bytes[]",
+          "name": "calldatas",
+          "type": "bytes[]"
+        }
+      ],
+      "name": "execute",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "timeValue",
+          "type": "uint256"
+        },
+        {
+          "internalType": "bytes32",
+          "name": "callHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "increaseTime",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "who",
+          "type": "address"
+        }
+      ],
+      "name": "isAuthorized",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "callHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "registerCall",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "who",
+          "type": "address"
+        }
+      ],
+      "name": "setOwner",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "_waitTime",
+          "type": "uint256"
+        }
+      ],
+      "name": "setWaitTime",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "callHash",
+          "type": "bytes32"
+        }
+      ],
+      "name": "stopCall",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes32",
+          "name": "",
+          "type": "bytes32"
+        }
+      ],
+      "name": "timeIncreases",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "waitTime",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0xc972485fd76802040bb17159de47636c88dc44470a5d05ebe85b4ccaf9f6a93a",
+  "receipt": {
+    "to": null,
+    "from": "0x19d96301865fdD07427db3c445508A051BC6D352",
+    "contractAddress": "0xa2eD20C94c694E0e746Fb5B331C121E110Cf5919",
+    "transactionIndex": 15,
+    "gasUsed": "830703",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0xe9b03169f98feafbdc485f30e2bb9067a6c4ee392279aeb2bd8b838a4c5d8b4a",
+    "transactionHash": "0xc972485fd76802040bb17159de47636c88dc44470a5d05ebe85b4ccaf9f6a93a",
+    "logs": [],
+    "blockNumber": 9234711,
+    "cumulativeGasUsed": "2539084",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    10,
+    "0x19d96301865fdD07427db3c445508A051BC6D352",
+    "0x0000000000000000000000000000000000000000"
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "b98fa4db99c33c415c022412c7a2a66e",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.10+commit.fc410830\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_waitTime\",\"type\":\"uint256\"},{\"internalType\":\"address\",\"name\":\"_governance\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"_gsc\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"who\",\"type\":\"address\"}],\"name\":\"authorize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"name\":\"authorized\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"callTimestamps\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"who\",\"type\":\"address\"}],\"name\":\"deauthorize\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"targets\",\"type\":\"address[]\"},{\"internalType\":\"bytes[]\",\"name\":\"calldatas\",\"type\":\"bytes[]\"}],\"name\":\"execute\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"timeValue\",\"type\":\"uint256\"},{\"internalType\":\"bytes32\",\"name\":\"callHash\",\"type\":\"bytes32\"}],\"name\":\"increaseTime\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"who\",\"type\":\"address\"}],\"name\":\"isAuthorized\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"callHash\",\"type\":\"bytes32\"}],\"name\":\"registerCall\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"who\",\"type\":\"address\"}],\"name\":\"setOwner\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"_waitTime\",\"type\":\"uint256\"}],\"name\":\"setWaitTime\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"callHash\",\"type\":\"bytes32\"}],\"name\":\"stopCall\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes32\",\"name\":\"\",\"type\":\"bytes32\"}],\"name\":\"timeIncreases\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"waitTime\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"authorize(address)\":{\"details\":\"Privileged function authorize an address\",\"params\":{\"who\":\"the address to authorize\"}},\"constructor\":{\"params\":{\"_governance\":\"governance\",\"_gsc\":\"governance steering committee contract.\",\"_waitTime\":\"amount of time for the waiting period\"}},\"deauthorize(address)\":{\"details\":\"Privileged function to de authorize an address\",\"params\":{\"who\":\"The address to remove authorization from\"}},\"execute(address[],bytes[])\":{\"params\":{\"calldatas\":\"Execution calldata for each target\",\"targets\":\"List of target addresses the timelock contract will interact with\"}},\"increaseTime(uint256,bytes32)\":{\"params\":{\"callHash\":\"The mapping entry to increase time\",\"timeValue\":\"Amount of time to increase by\"}},\"isAuthorized(address)\":{\"details\":\"Returns true if an address is authorized\",\"params\":{\"who\":\"the address to check\"},\"returns\":{\"_0\":\"true if authorized false if not\"}},\"registerCall(bytes32)\":{\"params\":{\"callHash\":\"The hash to map the timestamp to\"}},\"setOwner(address)\":{\"details\":\"Function to change owner\",\"params\":{\"who\":\"The new owner address\"}},\"setWaitTime(uint256)\":{\"params\":{\"_waitTime\":\"New wait time to set to\"}},\"stopCall(bytes32)\":{\"params\":{\"callHash\":\"Which entry of the mapping to remove\"}}},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"constructor\":{\"notice\":\"Constructs this contract and sets state variables\"},\"execute(address[],bytes[])\":{\"notice\":\"Execute the call if past the waiting period\"},\"increaseTime(uint256,bytes32)\":{\"notice\":\"Allow an increase in wait time for a given call can only be executed once for each call\"},\"registerCall(bytes32)\":{\"notice\":\"Stores at the callHash the current block timestamp\"},\"setWaitTime(uint256)\":{\"notice\":\"Allow a call from this contract to reset the wait time storage variable\"},\"stopCall(bytes32)\":{\"notice\":\"Removes stored callHash data\"}},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/features/Timelock.sol\":\"Timelock\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":100},\"remappings\":[]},\"sources\":{\"contracts/features/Timelock.sol\":{\"content\":\"// SPDX-License-Identifier: Apache-2.0\\npragma solidity ^0.8.3;\\n\\nimport \\\"../libraries/Authorizable.sol\\\";\\nimport \\\"../libraries/ReentrancyBlock.sol\\\";\\n\\n// Allows a call to be executed after a waiting period, also allows a call to\\n// be canceled within a waiting period.\\n\\ncontract Timelock is Authorizable, ReentrancyBlock {\\n    // Amount of time for the waiting period\\n    uint256 public waitTime;\\n\\n    // Mapping of call hashes to block timestamps\\n    mapping(bytes32 => uint256) public callTimestamps;\\n    // Mapping from a call hash to its status of once allowed time increase\\n    mapping(bytes32 => bool) public timeIncreases;\\n\\n    /// @notice Constructs this contract and sets state variables\\n    /// @param _waitTime amount of time for the waiting period\\n    /// @param _governance governance\\n    /// @param _gsc governance steering committee contract.\\n    constructor(\\n        uint256 _waitTime,\\n        address _governance,\\n        address _gsc\\n    ) Authorizable() {\\n        _authorize(_gsc);\\n        waitTime = _waitTime;\\n        setOwner(_governance);\\n    }\\n\\n    /// @notice Stores at the callHash the current block timestamp\\n    /// @param callHash The hash to map the timestamp to\\n    function registerCall(bytes32 callHash) external onlyOwner {\\n        // We only want to register a call which is not already active\\n        require(callTimestamps[callHash] == 0, \\\"already registered\\\");\\n        // Set the timestamp for this call package to be the current time\\n        callTimestamps[callHash] = block.timestamp;\\n    }\\n\\n    /// @notice Removes stored callHash data\\n    /// @param callHash Which entry of the mapping to remove\\n    function stopCall(bytes32 callHash) external onlyOwner {\\n        // We only want this to actually execute when a real thing is deleted to\\n        // prevent re-ordering attacks\\n        require(callTimestamps[callHash] != 0, \\\"No call to be removed\\\");\\n        // Do the actual deletion\\n        delete callTimestamps[callHash];\\n        delete timeIncreases[callHash];\\n    }\\n\\n    /// @notice Execute the call if past the waiting period\\n    /// @param targets List of target addresses the timelock contract will interact with\\n    /// @param calldatas Execution calldata for each target\\n    function execute(\\n        address[] memory targets,\\n        bytes[] calldata calldatas\\n    ) public nonReentrant {\\n        // hash provided data to access the mapping\\n        bytes32 callHash = keccak256(abi.encode(targets, calldatas));\\n        // call defaults to zero and cannot be executed before it is registered\\n        require(callTimestamps[callHash] != 0, \\\"call has not been initialized\\\");\\n        // call cannot be executed before the waiting period has passed\\n        require(\\n            callTimestamps[callHash] + waitTime < block.timestamp,\\n            \\\"not enough time has passed\\\"\\n        );\\n        // Gives a revert string to a revert that would occur anyway when the array is accessed\\n        require(targets.length == calldatas.length, \\\"invalid formatting\\\");\\n        // execute a package of low level calls\\n        for (uint256 i = 0; i < targets.length; i++) {\\n            (bool success, ) = targets[i].call(calldatas[i]);\\n            // revert if a single call fails\\n            require(success == true, \\\"call reverted\\\");\\n        }\\n        // restore state after successful execution\\n        delete callTimestamps[callHash];\\n        delete timeIncreases[callHash];\\n    }\\n\\n    /// @notice Allow a call from this contract to reset the wait time storage variable\\n    /// @param _waitTime New wait time to set to\\n    function setWaitTime(uint256 _waitTime) public {\\n        require(msg.sender == address(this), \\\"contract must be self\\\");\\n        waitTime = _waitTime;\\n    }\\n\\n    /// @notice Allow an increase in wait time for a given call\\n    /// can only be executed once for each call\\n    /// @param timeValue Amount of time to increase by\\n    /// @param callHash The mapping entry to increase time\\n    function increaseTime(\\n        uint256 timeValue,\\n        bytes32 callHash\\n    ) external onlyAuthorized {\\n        require(\\n            timeIncreases[callHash] == false,\\n            \\\"value can only be changed once\\\"\\n        );\\n        require(\\n            callTimestamps[callHash] != 0,\\n            \\\"must have been previously registered\\\"\\n        );\\n        // Increases the time till the call can be executed\\n        callTimestamps[callHash] += timeValue;\\n        // set mapping to indicate call has been changed\\n        timeIncreases[callHash] = true;\\n    }\\n}\\n\",\"keccak256\":\"0x08673fe85ef3d57907ec853dd49ef7c9b3c17c0b860a79bc0c1275da86a6e6c6\",\"license\":\"Apache-2.0\"},\"contracts/libraries/Authorizable.sol\":{\"content\":\"// SPDX-License-Identifier: Apache-2.0\\npragma solidity >=0.7.0;\\n\\ncontract Authorizable {\\n    // This contract allows a flexible authorization scheme\\n\\n    // The owner who can change authorization status\\n    address public owner;\\n    // A mapping from an address to its authorization status\\n    mapping(address => bool) public authorized;\\n\\n    /// @dev We set the deployer to the owner\\n    constructor() {\\n        owner = msg.sender;\\n    }\\n\\n    /// @dev This modifier checks if the msg.sender is the owner\\n    modifier onlyOwner() {\\n        require(msg.sender == owner, \\\"Sender not owner\\\");\\n        _;\\n    }\\n\\n    /// @dev This modifier checks if an address is authorized\\n    modifier onlyAuthorized() {\\n        require(isAuthorized(msg.sender), \\\"Sender not Authorized\\\");\\n        _;\\n    }\\n\\n    /// @dev Returns true if an address is authorized\\n    /// @param who the address to check\\n    /// @return true if authorized false if not\\n    function isAuthorized(address who) public view returns (bool) {\\n        return authorized[who];\\n    }\\n\\n    /// @dev Privileged function authorize an address\\n    /// @param who the address to authorize\\n    function authorize(address who) external onlyOwner {\\n        _authorize(who);\\n    }\\n\\n    /// @dev Privileged function to de authorize an address\\n    /// @param who The address to remove authorization from\\n    function deauthorize(address who) external onlyOwner {\\n        authorized[who] = false;\\n    }\\n\\n    /// @dev Function to change owner\\n    /// @param who The new owner address\\n    function setOwner(address who) public onlyOwner {\\n        owner = who;\\n    }\\n\\n    /// @dev Inheritable function which authorizes someone\\n    /// @param who the address to authorize\\n    function _authorize(address who) internal {\\n        authorized[who] = true;\\n    }\\n}\\n\",\"keccak256\":\"0x83a121b68c4ca50dfe279f0ceaa262b7c75d56af4669723f4ca8e7bb3865278e\",\"license\":\"Apache-2.0\"},\"contracts/libraries/ReentrancyBlock.sol\":{\"content\":\"// SPDX-License-Identifier: Apache-2.0\\npragma solidity ^0.8.3;\\n\\ncontract ReentrancyBlock {\\n    // A storage slot for the reentrancy flag\\n    bool private _entered;\\n    // Will use a state flag to prevent this function from being called back into\\n    modifier nonReentrant() {\\n        // Check the state variable before the call is entered\\n        require(!_entered, \\\"Reentrancy\\\");\\n        // Store that the function has been entered\\n        _entered = true;\\n        // Run the function code\\n        _;\\n        // Clear the state\\n        _entered = false;\\n    }\\n}\\n\",\"keccak256\":\"0xef4d37e834e66e443a3cee98c38412d4cf9068630160c1c5c805b908281b4457\",\"license\":\"Apache-2.0\"}},\"version\":1}",
+  "bytecode": "0x608060405234801561001057600080fd5b50604051610e1b380380610e1b83398101604081905261002f91610111565b600080546001600160a01b0319163317905561006c816001600160a01b03166000908152600160208190526040909120805460ff19169091179055565b600383905561007a82610082565b50505061014d565b6000546001600160a01b031633146100d35760405162461bcd60e51b815260206004820152601060248201526f29b2b73232b9103737ba1037bbb732b960811b604482015260640160405180910390fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b80516001600160a01b038116811461010c57600080fd5b919050565b60008060006060848603121561012657600080fd5b83519250610136602085016100f5565b9150610144604085016100f5565b90509250925092565b610cbf8061015c6000396000f3fe608060405234801561001057600080fd5b50600436106100ca5760003560e01c8063c8d18a451161007c578063c8d18a4514610193578063ccca123b146101a6578063d7bcb566146101bd578063d8e46775146101dd578063df351aaf14610200578063e4d5326614610213578063fe9fbb801461022657600080fd5b806313af4035146100cf57806327c97fa5146100e4578063821127d4146100f757806388b49b831461010a5780638da5cb5b1461011d578063b6a5d7de1461014d578063b918161114610160575b600080fd5b6100e26100dd3660046108fa565b610252565b005b6100e26100f23660046108fa565b6102a7565b6100e261010536600461091c565b6102f2565b6100e261011836600461093e565b61044e565b600054610130906001600160a01b031681565b6040516001600160a01b0390911681526020015b60405180910390f35b6100e261015b3660046108fa565b6104dc565b61018361016e3660046108fa565b60016020526000908152604090205460ff1681565b6040519015158152602001610144565b6100e26101a13660046109b9565b610534565b6101af60035481565b604051908152602001610144565b6101af6101cb36600461093e565b60046020526000908152604090205481565b6101836101eb36600461093e565b60056020526000908152604090205460ff1681565b6100e261020e36600461093e565b6107f0565b6100e261022136600461093e565b61083c565b6101836102343660046108fa565b6001600160a01b031660009081526001602052604090205460ff1690565b6000546001600160a01b031633146102855760405162461bcd60e51b815260040161027c90610aa3565b60405180910390fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b6000546001600160a01b031633146102d15760405162461bcd60e51b815260040161027c90610aa3565b6001600160a01b03166000908152600160205260409020805460ff19169055565b3360009081526001602052604090205460ff166103495760405162461bcd60e51b815260206004820152601560248201527414d95b99195c881b9bdd08105d5d1a1bdc9a5e9959605a1b604482015260640161027c565b60008181526005602052604090205460ff16156103a85760405162461bcd60e51b815260206004820152601e60248201527f76616c75652063616e206f6e6c79206265206368616e676564206f6e63650000604482015260640161027c565b60008181526004602052604090205461040f5760405162461bcd60e51b8152602060048201526024808201527f6d7573742068617665206265656e2070726576696f75736c7920726567697374604482015263195c995960e21b606482015260840161027c565b6000818152600460205260408120805484929061042d908490610ae3565b90915550506000908152600560205260409020805460ff1916600117905550565b6000546001600160a01b031633146104785760405162461bcd60e51b815260040161027c90610aa3565b600081815260046020526040902054156104c95760405162461bcd60e51b8152602060048201526012602482015271185b1c9958591e481c9959da5cdd195c995960721b604482015260640161027c565b6000908152600460205260409020429055565b6000546001600160a01b031633146105065760405162461bcd60e51b815260040161027c90610aa3565b610531816001600160a01b03166000908152600160208190526040909120805460ff19169091179055565b50565b60025460ff16156105745760405162461bcd60e51b815260206004820152600a6024820152695265656e7472616e637960b01b604482015260640161027c565b6002805460ff1916600117905560405160009061059990859085908590602001610b24565b60408051601f1981840301815291815281516020928301206000818152600490935291205490915061060d5760405162461bcd60e51b815260206004820152601d60248201527f63616c6c20686173206e6f74206265656e20696e697469616c697a6564000000604482015260640161027c565b600354600082815260046020526040902054429161062a91610ae3565b106106775760405162461bcd60e51b815260206004820152601a60248201527f6e6f7420656e6f7567682074696d652068617320706173736564000000000000604482015260640161027c565b835182146106bc5760405162461bcd60e51b8152602060048201526012602482015271696e76616c696420666f726d617474696e6760701b604482015260640161027c565b60005b84518110156107bb5760008582815181106106dc576106dc610c01565b60200260200101516001600160a01b03168585848181106106ff576106ff610c01565b90506020028101906107119190610c17565b60405161071f929190610c5e565b6000604051808303816000865af19150503d806000811461075c576040519150601f19603f3d011682016040523d82523d6000602084013e610761565b606091505b50909150506001811515146107a85760405162461bcd60e51b815260206004820152600d60248201526c18d85b1b081c995d995c9d1959609a1b604482015260640161027c565b50806107b381610c6e565b9150506106bf565b50600090815260046020908152604080832083905560059091529020805460ff19908116909155600280549091169055505050565b3330146108375760405162461bcd60e51b815260206004820152601560248201527431b7b73a3930b1ba1036bab9ba1031329039b2b63360591b604482015260640161027c565b600355565b6000546001600160a01b031633146108665760405162461bcd60e51b815260040161027c90610aa3565b6000818152600460205260409020546108b95760405162461bcd60e51b8152602060048201526015602482015274139bc818d85b1b081d1bc81899481c995b5bdd9959605a1b604482015260640161027c565b600090815260046020908152604080832083905560059091529020805460ff19169055565b80356001600160a01b03811681146108f557600080fd5b919050565b60006020828403121561090c57600080fd5b610915826108de565b9392505050565b6000806040838503121561092f57600080fd5b50508035926020909101359150565b60006020828403121561095057600080fd5b5035919050565b634e487b7160e01b600052604160045260246000fd5b60008083601f84011261097f57600080fd5b50813567ffffffffffffffff81111561099757600080fd5b6020830191508360208260051b85010111156109b257600080fd5b9250929050565b6000806000604084860312156109ce57600080fd5b833567ffffffffffffffff808211156109e657600080fd5b818601915086601f8301126109fa57600080fd5b8135602082821115610a0e57610a0e610957565b8160051b604051601f19603f83011681018181108682111715610a3357610a33610957565b6040529283528481018201928281018b851115610a4f57600080fd5b958301955b84871015610a7257610a65876108de565b8152958301958301610a54565b5097505087013592505080821115610a8957600080fd5b50610a968682870161096d565b9497909650939450505050565b60208082526010908201526f29b2b73232b9103737ba1037bbb732b960811b604082015260600190565b634e487b7160e01b600052601160045260246000fd5b60008219821115610af657610af6610acd565b500190565b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b604080825284519082018190526000906020906060840190828801845b82811015610b665781516001600160a01b031684529284019290840190600101610b41565b50505083810382850152848152818101600586901b820183018760005b88811015610bf257848303601f190184528135368b9003601e19018112610ba957600080fd5b8a01803567ffffffffffffffff811115610bc257600080fd5b8036038c1315610bd157600080fd5b610bde85828a8501610afb565b958801959450505090850190600101610b83565b50909998505050505050505050565b634e487b7160e01b600052603260045260246000fd5b6000808335601e19843603018112610c2e57600080fd5b83018035915067ffffffffffffffff821115610c4957600080fd5b6020019150368190038213156109b257600080fd5b8183823760009101908152919050565b6000600019821415610c8257610c82610acd565b506001019056fea264697066735822122056acff0baffa9cfa9112fe5c5c7d6edd5a9ea1437126fb53d65abda89e3e106764736f6c634300080a0033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100ca5760003560e01c8063c8d18a451161007c578063c8d18a4514610193578063ccca123b146101a6578063d7bcb566146101bd578063d8e46775146101dd578063df351aaf14610200578063e4d5326614610213578063fe9fbb801461022657600080fd5b806313af4035146100cf57806327c97fa5146100e4578063821127d4146100f757806388b49b831461010a5780638da5cb5b1461011d578063b6a5d7de1461014d578063b918161114610160575b600080fd5b6100e26100dd3660046108fa565b610252565b005b6100e26100f23660046108fa565b6102a7565b6100e261010536600461091c565b6102f2565b6100e261011836600461093e565b61044e565b600054610130906001600160a01b031681565b6040516001600160a01b0390911681526020015b60405180910390f35b6100e261015b3660046108fa565b6104dc565b61018361016e3660046108fa565b60016020526000908152604090205460ff1681565b6040519015158152602001610144565b6100e26101a13660046109b9565b610534565b6101af60035481565b604051908152602001610144565b6101af6101cb36600461093e565b60046020526000908152604090205481565b6101836101eb36600461093e565b60056020526000908152604090205460ff1681565b6100e261020e36600461093e565b6107f0565b6100e261022136600461093e565b61083c565b6101836102343660046108fa565b6001600160a01b031660009081526001602052604090205460ff1690565b6000546001600160a01b031633146102855760405162461bcd60e51b815260040161027c90610aa3565b60405180910390fd5b600080546001600160a01b0319166001600160a01b0392909216919091179055565b6000546001600160a01b031633146102d15760405162461bcd60e51b815260040161027c90610aa3565b6001600160a01b03166000908152600160205260409020805460ff19169055565b3360009081526001602052604090205460ff166103495760405162461bcd60e51b815260206004820152601560248201527414d95b99195c881b9bdd08105d5d1a1bdc9a5e9959605a1b604482015260640161027c565b60008181526005602052604090205460ff16156103a85760405162461bcd60e51b815260206004820152601e60248201527f76616c75652063616e206f6e6c79206265206368616e676564206f6e63650000604482015260640161027c565b60008181526004602052604090205461040f5760405162461bcd60e51b8152602060048201526024808201527f6d7573742068617665206265656e2070726576696f75736c7920726567697374604482015263195c995960e21b606482015260840161027c565b6000818152600460205260408120805484929061042d908490610ae3565b90915550506000908152600560205260409020805460ff1916600117905550565b6000546001600160a01b031633146104785760405162461bcd60e51b815260040161027c90610aa3565b600081815260046020526040902054156104c95760405162461bcd60e51b8152602060048201526012602482015271185b1c9958591e481c9959da5cdd195c995960721b604482015260640161027c565b6000908152600460205260409020429055565b6000546001600160a01b031633146105065760405162461bcd60e51b815260040161027c90610aa3565b610531816001600160a01b03166000908152600160208190526040909120805460ff19169091179055565b50565b60025460ff16156105745760405162461bcd60e51b815260206004820152600a6024820152695265656e7472616e637960b01b604482015260640161027c565b6002805460ff1916600117905560405160009061059990859085908590602001610b24565b60408051601f1981840301815291815281516020928301206000818152600490935291205490915061060d5760405162461bcd60e51b815260206004820152601d60248201527f63616c6c20686173206e6f74206265656e20696e697469616c697a6564000000604482015260640161027c565b600354600082815260046020526040902054429161062a91610ae3565b106106775760405162461bcd60e51b815260206004820152601a60248201527f6e6f7420656e6f7567682074696d652068617320706173736564000000000000604482015260640161027c565b835182146106bc5760405162461bcd60e51b8152602060048201526012602482015271696e76616c696420666f726d617474696e6760701b604482015260640161027c565b60005b84518110156107bb5760008582815181106106dc576106dc610c01565b60200260200101516001600160a01b03168585848181106106ff576106ff610c01565b90506020028101906107119190610c17565b60405161071f929190610c5e565b6000604051808303816000865af19150503d806000811461075c576040519150601f19603f3d011682016040523d82523d6000602084013e610761565b606091505b50909150506001811515146107a85760405162461bcd60e51b815260206004820152600d60248201526c18d85b1b081c995d995c9d1959609a1b604482015260640161027c565b50806107b381610c6e565b9150506106bf565b50600090815260046020908152604080832083905560059091529020805460ff19908116909155600280549091169055505050565b3330146108375760405162461bcd60e51b815260206004820152601560248201527431b7b73a3930b1ba1036bab9ba1031329039b2b63360591b604482015260640161027c565b600355565b6000546001600160a01b031633146108665760405162461bcd60e51b815260040161027c90610aa3565b6000818152600460205260409020546108b95760405162461bcd60e51b8152602060048201526015602482015274139bc818d85b1b081d1bc81899481c995b5bdd9959605a1b604482015260640161027c565b600090815260046020908152604080832083905560059091529020805460ff19169055565b80356001600160a01b03811681146108f557600080fd5b919050565b60006020828403121561090c57600080fd5b610915826108de565b9392505050565b6000806040838503121561092f57600080fd5b50508035926020909101359150565b60006020828403121561095057600080fd5b5035919050565b634e487b7160e01b600052604160045260246000fd5b60008083601f84011261097f57600080fd5b50813567ffffffffffffffff81111561099757600080fd5b6020830191508360208260051b85010111156109b257600080fd5b9250929050565b6000806000604084860312156109ce57600080fd5b833567ffffffffffffffff808211156109e657600080fd5b818601915086601f8301126109fa57600080fd5b8135602082821115610a0e57610a0e610957565b8160051b604051601f19603f83011681018181108682111715610a3357610a33610957565b6040529283528481018201928281018b851115610a4f57600080fd5b958301955b84871015610a7257610a65876108de565b8152958301958301610a54565b5097505087013592505080821115610a8957600080fd5b50610a968682870161096d565b9497909650939450505050565b60208082526010908201526f29b2b73232b9103737ba1037bbb732b960811b604082015260600190565b634e487b7160e01b600052601160045260246000fd5b60008219821115610af657610af6610acd565b500190565b81835281816020850137506000828201602090810191909152601f909101601f19169091010190565b604080825284519082018190526000906020906060840190828801845b82811015610b665781516001600160a01b031684529284019290840190600101610b41565b50505083810382850152848152818101600586901b820183018760005b88811015610bf257848303601f190184528135368b9003601e19018112610ba957600080fd5b8a01803567ffffffffffffffff811115610bc257600080fd5b8036038c1315610bd157600080fd5b610bde85828a8501610afb565b958801959450505090850190600101610b83565b50909998505050505050505050565b634e487b7160e01b600052603260045260246000fd5b6000808335601e19843603018112610c2e57600080fd5b83018035915067ffffffffffffffff821115610c4957600080fd5b6020019150368190038213156109b257600080fd5b8183823760009101908152919050565b6000600019821415610c8257610c82610acd565b506001019056fea264697066735822122056acff0baffa9cfa9112fe5c5c7d6edd5a9ea1437126fb53d65abda89e3e106764736f6c634300080a0033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "authorize(address)": {
+        "details": "Privileged function authorize an address",
+        "params": {
+          "who": "the address to authorize"
+        }
+      },
+      "constructor": {
+        "params": {
+          "_governance": "governance",
+          "_gsc": "governance steering committee contract.",
+          "_waitTime": "amount of time for the waiting period"
+        }
+      },
+      "deauthorize(address)": {
+        "details": "Privileged function to de authorize an address",
+        "params": {
+          "who": "The address to remove authorization from"
+        }
+      },
+      "execute(address[],bytes[])": {
+        "params": {
+          "calldatas": "Execution calldata for each target",
+          "targets": "List of target addresses the timelock contract will interact with"
+        }
+      },
+      "increaseTime(uint256,bytes32)": {
+        "params": {
+          "callHash": "The mapping entry to increase time",
+          "timeValue": "Amount of time to increase by"
+        }
+      },
+      "isAuthorized(address)": {
+        "details": "Returns true if an address is authorized",
+        "params": {
+          "who": "the address to check"
+        },
+        "returns": {
+          "_0": "true if authorized false if not"
+        }
+      },
+      "registerCall(bytes32)": {
+        "params": {
+          "callHash": "The hash to map the timestamp to"
+        }
+      },
+      "setOwner(address)": {
+        "details": "Function to change owner",
+        "params": {
+          "who": "The new owner address"
+        }
+      },
+      "setWaitTime(uint256)": {
+        "params": {
+          "_waitTime": "New wait time to set to"
+        }
+      },
+      "stopCall(bytes32)": {
+        "params": {
+          "callHash": "Which entry of the mapping to remove"
+        }
+      }
+    },
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "constructor": {
+        "notice": "Constructs this contract and sets state variables"
+      },
+      "execute(address[],bytes[])": {
+        "notice": "Execute the call if past the waiting period"
+      },
+      "increaseTime(uint256,bytes32)": {
+        "notice": "Allow an increase in wait time for a given call can only be executed once for each call"
+      },
+      "registerCall(bytes32)": {
+        "notice": "Stores at the callHash the current block timestamp"
+      },
+      "setWaitTime(uint256)": {
+        "notice": "Allow a call from this contract to reset the wait time storage variable"
+      },
+      "stopCall(bytes32)": {
+        "notice": "Removes stored callHash data"
+      }
+    },
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 3417,
+        "contract": "contracts/features/Timelock.sol:Timelock",
+        "label": "owner",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 3421,
+        "contract": "contracts/features/Timelock.sol:Timelock",
+        "label": "authorized",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_address,t_bool)"
+      },
+      {
+        "astId": 4677,
+        "contract": "contracts/features/Timelock.sol:Timelock",
+        "label": "_entered",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_bool"
+      },
+      {
+        "astId": 2597,
+        "contract": "contracts/features/Timelock.sol:Timelock",
+        "label": "waitTime",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_uint256"
+      },
+      {
+        "astId": 2601,
+        "contract": "contracts/features/Timelock.sol:Timelock",
+        "label": "callTimestamps",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_mapping(t_bytes32,t_uint256)"
+      },
+      {
+        "astId": 2605,
+        "contract": "contracts/features/Timelock.sol:Timelock",
+        "label": "timeIncreases",
+        "offset": 0,
+        "slot": "5",
+        "type": "t_mapping(t_bytes32,t_bool)"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_bytes32": {
+        "encoding": "inplace",
+        "label": "bytes32",
+        "numberOfBytes": "32"
+      },
+      "t_mapping(t_address,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_address",
+        "label": "mapping(address => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      },
+      "t_mapping(t_bytes32,t_bool)": {
+        "encoding": "mapping",
+        "key": "t_bytes32",
+        "label": "mapping(bytes32 => bool)",
+        "numberOfBytes": "32",
+        "value": "t_bool"
+      },
+      "t_mapping(t_bytes32,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_bytes32",
+        "label": "mapping(bytes32 => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      }
+    }
+  }
+}
