@@ -73,6 +73,12 @@ contract V3Vault is IVotingVault {
         uint256 token1AmountDesired;
     }
 
+    function viewUserPosition(uint256 index) external returns (uint256) {
+        mapping(address => uint256[]) storage userData = Storage
+            .mappingAddressToUnit256ArrayPtr("userPositions");
+        return userData[msg.sender][index];
+    }
+
     function mintPosition(posInfo memory v3Info) external {
         // Get the token from the user
 
@@ -120,6 +126,9 @@ contract V3Vault is IVotingVault {
         (uint256 tokenId, uint128 liquidity, , ) = NFTPositionManager.mint(
             params
         );
+        mapping(address => uint256[]) storage userData = Storage
+            .mappingAddressToUnit256ArrayPtr("userPositions");
+        userData[msg.sender].push(tokenId);
         // Get the hash pointer to the history mapping
         History.HistoricalBalances memory votingPower = _votingPower();
         // Load the user votes
@@ -169,14 +178,16 @@ contract V3Vault is IVotingVault {
         (, int24 currentTick, , , , , ) = IUniswapV3Pool(pool).slot0();
 
         uint256 i = 0;
-        uint256 votingPowerTotal;
-        while (i < farthestSearchableIndex) {
+        uint256 votingPowerTotal = 0;
+        while (i < farthestSearchableIndex * 3) {
             if (data[msg.sender][i + 1] > currentTick) {
                 //If the lower one is above the currentTick
+                i = i + 3;
                 continue;
             }
             if (data[msg.sender][i + 2] < currentTick) {
                 //If the lower one is above the currentTick
+                i = i + 3;
                 continue;
             }
             votingPowerTotal += uint256(data[msg.sender][i]);
