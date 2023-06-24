@@ -45,6 +45,15 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
   console.log(votingVault.address);
   log("------------------------------------------------------------");
+  args = [timeLock.address, 10];
+  const vestingVault = await deploy("VestingVault", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+  console.log(vestingVault.address);
+  log("------------------------------------------------------------");
   args = [timeLock.address, 10, 10, nonAddy, []];
 
   const coreVoting = await deploy("CoreVoting", {
