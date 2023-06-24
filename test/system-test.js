@@ -2,7 +2,7 @@ const { expect, assert } = require("chai");
 const { ethers } = require("hardhat");
 
 const bigDecimal = require("js-big-decimal");
-describe("Leveraged V3 Manager ", function () {
+describe("Council Tests", function () {
   //This is every contract or that we will call on/use
   let hogToken, Treasury, timeLock, coreVoting;
 
