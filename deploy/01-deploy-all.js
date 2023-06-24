@@ -7,7 +7,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   //const decim = ethers.utils.parseEther("1");
   let args = ["HOG", "HOG", deployer.address];
   //They deploy a governnace token first
-  const HOG = await deploy("IERC20", {
+  const HOG = await deploy("MockERC20", {
     from: deployer,
     args: args,
     log: true,
@@ -46,7 +46,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   log("------------------------------------------------------------");
   args = [timeLock.address, , 10, 10, nonAddy, 10, 20];
 
-  const coreVoting = await deploy("coreVoting", {
+  const coreVoting = await deploy("CoreVoting", {
     from: deployer,
     args: args,
     log: true,

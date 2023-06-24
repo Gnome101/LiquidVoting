@@ -1,5 +1,8 @@
 const { expect, assert } = require("chai");
 const { ethers } = require("hardhat");
+const {
+  isCallTrace,
+} = require("hardhat/internal/hardhat-network/stack-traces/message-trace");
 
 const bigDecimal = require("js-big-decimal");
 describe("Council Tests", function () {
@@ -12,9 +15,15 @@ describe("Council Tests", function () {
     deployer = accounts[0];
     user = accounts[1];
     await deployments.fixture(["all"]);
-    hogToken = await ethers.getContract("LeveragedV3Manager");
-    Treasury = await ethers.getContract("TokenAmountTools");
-    timeLock = await ethers.getContract("PrimeNumberStorage");
-    coreVoting = await ethers.getContract("V3UniRouteManager");
+    hogToken = await ethers.getContract("MockERC20");
+    Treasury = await ethers.getContract("Treasury");
+    timeLock = await ethers.getContract("Timelock");
+    coreVoting = await ethers.getContract("CoreVoting");
+  });
+  it("all contracts exist", async () => {
+    await hogToken.address;
+    await Treasury.address;
+    await timeLock.address;
+    await coreVoting.address;
   });
 });
