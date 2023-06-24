@@ -16,15 +16,5 @@ describe("Leveraged V3 Manager ", function () {
     Treasury = await ethers.getContract("TokenAmountTools");
     timeLock = await ethers.getContract("PrimeNumberStorage");
     coreVoting = await ethers.getContract("V3UniRouteManager");
-
-    playerLeveragedV3Manager = await ethers.getContract(
-      "LeveragedV3Manager",
-      user.address
-    );
-    EPICDAI = await ethers.getContract("EPICDAI");
-    HOGWELL = await ethers.getContract("HOGWELL");
-
-    PlayerEPICDAI = await ethers.getContract("EPICDAI", user.address);
-    PlayerHOGWELL = await ethers.getContract("HOGWELL", user.address);
   });
 });
