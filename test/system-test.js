@@ -19,11 +19,40 @@ describe("Council Tests", function () {
     Treasury = await ethers.getContract("Treasury");
     timeLock = await ethers.getContract("Timelock");
     coreVoting = await ethers.getContract("CoreVoting");
+    friendlyVault = await ethers.getContract("FriendlyVault");
   });
   it("all contracts exist", async () => {
-    await hogToken.address;
-    await Treasury.address;
-    await timeLock.address;
-    await coreVoting.address;
+    hogToken.address;
+    Treasury.address;
+    timeLock.address;
+    coreVoting.address;
+    friendlyVault.address;
+  });
+  it("test creating a proposal 121", async () => {
+    const abi = ethers.utils.defaultAbiCoder;
+    const encodedData = abi.encode(["uint256"], ["100"]);
+    console.log("Encoded Data", encodedData);
+    const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+    const blankAddy =
+      "0x0000000000000000000000000000000000000000000000000000000000000000";
+    //console.log((await coreVoting.proposalCount).toString());
+
+    let proposalCount = await coreVoting.proposalCount();
+    console.log(proposalCount.toString());
+    await coreVoting.proposal(
+      [friendlyVault.address],
+      [encodedData],
+      [deployer.address],
+      [blankAddy],
+      timeStamp + 10000,
+      0
+    );
+    proposalCount = await coreVoting.proposalCount();
+    console.log(proposalCount.toString());
+
+    const proposalInfo = await coreVoting.proposals(0);
+    console.log(proposalInfo.toString());
+
+    describe("v3 testing");
   });
 });
