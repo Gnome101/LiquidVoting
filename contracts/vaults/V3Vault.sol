@@ -68,36 +68,40 @@ contract V3Vault is IVotingVault {
 
     function mintPosition(posInfo memory v3Info) external {
         // Get the token from the user
-        if (v3Info.userToken == IUniswapV3Pool(v3Info.desiredPool).token0()) {
-            IERC20(v3Info.userToken).transferFrom(
-                msg.sender,
-                address(this),
-                v3Info.token0AmountDesired
-            );
-            IERC20(IUniswapV3Pool(v3Info.desiredPool).token1()).transferFrom(
-                msg.sender,
-                address(this),
-                v3Info.token1AmountDesired
-            );
-        } else {
-            IERC20(v3Info.userToken).transferFrom(
-                msg.sender,
-                address(this),
-                v3Info.token0AmountDesired
-            );
-            IERC20(IUniswapV3Pool(v3Info.desiredPool).token1()).transferFrom(
-                msg.sender,
-                address(this),
-                v3Info.token1AmountDesired
-            );
-        }
+
+        IERC20(IUniswapV3Pool(v3Info.desiredPool).token0()).transferFrom(
+            msg.sender,
+            address(this),
+            v3Info.token0AmountDesired
+        );
+        IERC20(IUniswapV3Pool(v3Info.desiredPool).token1()).transferFrom(
+            msg.sender,
+            address(this),
+            v3Info.token1AmountDesired
+        );
+
+        bool suc = IERC20(IUniswapV3Pool(v3Info.desiredPool).token0()).approve(
+            address(NFTPositionManager),
+            v3Info.token0AmountDesired
+        );
+        require(suc);
+        bool suc2 = IERC20(IUniswapV3Pool(v3Info.desiredPool).token1()).approve(
+            address(NFTPositionManager),
+            v3Info.token1AmountDesired
+        );
+        require(suc2);
+
         INonfungiblePositionManager.MintParams
             memory params = INonfungiblePositionManager.MintParams({
                 token0: IUniswapV3Pool(v3Info.desiredPool).token0(),
                 token1: IUniswapV3Pool(v3Info.desiredPool).token1(),
                 fee: feeTier,
-                tickLower: v3Info.centerTick - v3Info.width,
-                tickUpper: v3Info.centerTick + v3Info.width,
+                tickLower: v3Info.centerTick -
+                    v3Info.width *
+                    IUniswapV3Pool(v3Info.desiredPool).tickSpacing(),
+                tickUpper: v3Info.centerTick +
+                    v3Info.width *
+                    IUniswapV3Pool(v3Info.desiredPool).tickSpacing(),
                 amount0Desired: v3Info.token0AmountDesired,
                 amount1Desired: v3Info.token1AmountDesired,
                 amount0Min: 0,
@@ -128,7 +132,7 @@ contract V3Vault is IVotingVault {
     function queryVotePower(
         address user,
         uint256 blockNumber,
-        bytes calldata
+        bytes calldata //This can be the current V3
     ) external override returns (uint256) {
         // Get our reference to historical data
         History.HistoricalBalances memory votingPower = _votingPower();

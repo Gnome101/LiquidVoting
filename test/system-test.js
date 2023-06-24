@@ -165,16 +165,31 @@ describe("Council Tests", function () {
       const upperTick = nearestTick + tickSpacing * 50;
       //I will need an NFT position manager
       const amountT0 = new bigDecimal(10 * 10 ** 18);
+
       const v3Info = {
         desiredPool: HOGWETHPool.address,
         centerTick: nearestTick,
         width: 50,
         userToken: mockWeth.address,
         token0AmountDesired: amountT0.getValue(),
-        token1AmountDesired: amountT0,
+        token1AmountDesired: amountT0.getValue(),
       };
+      console.log("addy", mockWeth.address, mockHog.address);
+      console.log(amountT0.getValue());
+      console.log(HOGWETHPool.address);
+      await mockWeth.setBalance(deployer.address, amountT0.getValue());
+      await mockHog.setBalance(deployer.address, amountT0.getValue());
+
+      await mockWeth.approve(V3Vault.address, amountT0.getValue());
+      await mockHog.approve(V3Vault.address, amountT0.getValue());
 
       await V3Vault.mintPosition(v3Info);
+      const latestBlockNum = await ethers.provider.getBlock("latest").number;
+      const votingPower = await V3Vault.queryVotePower(
+        deployer.address,
+        latestBlockNum
+      );
+      console.log(votingPower.toString());
     });
   });
 });

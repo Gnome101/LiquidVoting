@@ -62,12 +62,6 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
   console.log(friendlyVault.address);
   log("------------------------------------------------------------");
-  console.log(
-    "0xc36442b4a4522e871399cd717abdd847ab11fe88",
-    mockHog.address,
-    3000,
-    "0xc36442b4a4522e871399cd717abdd847ab11fe88"
-  );
 
   args = [
     "0xc36442b4a4522e871399cd717abdd847ab11fe88",
