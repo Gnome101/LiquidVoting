@@ -4,6 +4,13 @@ const {
   isCallTrace,
 } = require("hardhat/internal/hardhat-network/stack-traces/message-trace");
 
+const {
+  calculateSqrtPriceX96,
+  calculatePriceFromX96,
+  getNearestUsableTick,
+  getWalletEthBalance,
+} = require("../utils/TokenUtil");
+
 const bigDecimal = require("js-big-decimal");
 describe("Council Tests", function () {
   //This is every contract or that we will call on/use
@@ -68,7 +75,13 @@ describe("Council Tests", function () {
         let erc20Address = [mockWeth.address, mockHog.address];
         erc20Address = erc20Address.sort();
 
-        
+        if (erc20Address[0] == HOGWELL.address) {
+          sqrtPrice = calculateSqrtPriceX96(price, decimals, decimals);
+        } else {
+          sqrtPrice = calculateSqrtPriceX96(1 / price, decimals, decimals);
+        }
+
+
       })
       it("user can build a v3 position", async () => {
         //I will need an NFT position manager
