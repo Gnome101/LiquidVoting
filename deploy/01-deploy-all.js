@@ -66,8 +66,10 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   args = [
     "0xc36442b4a4522e871399cd717abdd847ab11fe88",
     mockHog.address,
+    mockWeth.address,
     3000,
     "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+    "0x1F98431c8aD98523631AE4a59f267346ea31F984",
   ];
   const V3Vault = await deploy("V3Vault", {
     from: deployer,

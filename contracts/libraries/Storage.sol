@@ -108,6 +108,19 @@ library Storage {
         }
     }
 
+    /// @notice Returns the storage pointer for a named mapping of address to int24[]
+    /// @param name the variable name for the pointer
+    /// @return data the mapping pointer
+    function mappingAddressToInt256ArrayPtr(
+        string memory name
+    ) internal pure returns (mapping(address => int256[]) storage data) {
+        bytes32 typehash = keccak256("mapping(address => int256[])");
+        bytes32 offset = keccak256(abi.encodePacked(typehash, name));
+        assembly {
+            data.slot := offset
+        }
+    }
+
     /// @notice Allows external users to calculate the slot given by this lib
     /// @param typeString the string which encodes the type
     /// @param name the variable name

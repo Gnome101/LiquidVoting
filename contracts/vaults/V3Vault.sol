@@ -8,6 +8,7 @@ import "../interfaces/IERC20.sol";
 import "./IVotingVault.sol";
 import "../interfaces/INonfungiblePositionManager.sol";
 import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
+import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol";
 
 contract V3Vault is IVotingVault {
     // Bring our libraries into scope
@@ -17,19 +18,25 @@ contract V3Vault is IVotingVault {
     // Only immutables can be declared without using the hash locations
     IERC721 immutable token;
     IERC20 immutable govToken;
+    IERC20 immutable weth;
     uint24 immutable feeTier;
     INonfungiblePositionManager immutable NFTPositionManager;
+    IUniswapV3Factory immutable Factory;
 
     constructor(
         IERC721 _token,
         IERC20 _govToken,
+        IERC20 _weth,
         uint24 _feeTier,
-        INonfungiblePositionManager _NFTPositionManager
+        INonfungiblePositionManager _NFTPositionManager,
+        IUniswapV3Factory _Factory
     ) {
         token = _token;
         govToken = _govToken;
+        weth = _weth;
         feeTier = _feeTier;
         NFTPositionManager = _NFTPositionManager;
+        Factory = _Factory;
     }
 
     /// @notice Returns the historical voting power tracker
@@ -119,9 +126,21 @@ contract V3Vault is IVotingVault {
         uint256 currentVotes = votingPower.loadTop(msg.sender);
         // Push their new voting power
 
-        votingPower.push(
-            msg.sender,
-            currentVotes + liquidity / uint24(v3Info.width)
+        votingPower.push(msg.sender, currentVotes + 1);
+
+        mapping(address => int256[]) storage data = Storage
+            .mappingAddressToInt256ArrayPtr("userOwnerShip");
+
+        data[msg.sender].push(int128(liquidity));
+        data[msg.sender].push(
+            v3Info.centerTick -
+                v3Info.width *
+                IUniswapV3Pool(v3Info.desiredPool).tickSpacing()
+        );
+        data[msg.sender].push(
+            v3Info.centerTick +
+                v3Info.width *
+                IUniswapV3Pool(v3Info.desiredPool).tickSpacing()
         );
     }
 
@@ -133,10 +152,36 @@ contract V3Vault is IVotingVault {
         address user,
         uint256 blockNumber,
         bytes calldata //This can be the current V3
-    ) external override returns (uint256) {
-        // Get our reference to historical data
+    ) external view override returns (uint256) {
         History.HistoricalBalances memory votingPower = _votingPower();
+        // Get our reference to historical data
+
+        uint256 farthestSearchableIndex = votingPower.find(user, blockNumber);
+
+        mapping(address => int256[]) storage data = Storage
+            .mappingAddressToInt256ArrayPtr("userOwnerShip");
         // Find the historical data in our mapping
-        return votingPower.find(user, blockNumber);
+        address pool = Factory.getPool(
+            address(govToken),
+            address(weth),
+            feeTier
+        );
+        (, int24 currentTick, , , , , ) = IUniswapV3Pool(pool).slot0();
+
+        uint256 i = 0;
+        uint256 votingPowerTotal;
+        while (i < farthestSearchableIndex) {
+            if (data[msg.sender][i + 1] > currentTick) {
+                //If the lower one is above the currentTick
+                continue;
+            }
+            if (data[msg.sender][i + 2] < currentTick) {
+                //If the lower one is above the currentTick
+                continue;
+            }
+            votingPowerTotal += uint256(data[msg.sender][i]);
+            i = i + 3;
+        }
+        return votingPowerTotal;
     }
 }

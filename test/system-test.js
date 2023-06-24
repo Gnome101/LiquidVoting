@@ -169,7 +169,7 @@ describe("Council Tests", function () {
       const v3Info = {
         desiredPool: HOGWETHPool.address,
         centerTick: nearestTick,
-        width: 50,
+        width: 10,
         userToken: mockWeth.address,
         token0AmountDesired: amountT0.getValue(),
         token1AmountDesired: amountT0.getValue(),
@@ -184,12 +184,20 @@ describe("Council Tests", function () {
       await mockHog.approve(V3Vault.address, amountT0.getValue());
 
       await V3Vault.mintPosition(v3Info);
-      const latestBlockNum = await ethers.provider.getBlock("latest").number;
+      const latestBlock = await ethers.provider.getBlock("latest");
+      const latestBlockNum = latestBlock.number;
+      const blankAddy =
+        "0x0000000000000000000000000000000000000000000000000000000000000000";
       const votingPower = await V3Vault.queryVotePower(
         deployer.address,
-        latestBlockNum
+        latestBlockNum + 1,
+        blankAddy
       );
       console.log(votingPower.toString());
+      //71794946851985505209 with 50 width
+      //338374998097383714278 with 10 width
+
+      await 
     });
   });
 });
