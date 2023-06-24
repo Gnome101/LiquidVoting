@@ -21,6 +21,7 @@ describe("Council Tests", function () {
     mockWeth,
     HOGWETHPool,
     NFTPositionManager,
+    V3Vault,
     Factory;
 
   const hundy = ethers.utils.parseEther("100");
@@ -36,6 +37,7 @@ describe("Council Tests", function () {
     timeLock = await ethers.getContract("Timelock");
     coreVoting = await ethers.getContract("CoreVoting");
     friendlyVault = await ethers.getContract("FriendlyVault");
+    V3Vault = await ethers.getContract("V3Vault");
     NFTPositionManager = await ethers.getContractAt(
       "INonfungiblePositionManager",
       "0xc36442b4a4522e871399cd717abdd847ab11fe88"
@@ -155,13 +157,24 @@ describe("Council Tests", function () {
     });
     it("user can build a v3 position 121", async () => {
       console.log("HOG", HOGWETHPool.address);
+      const slot0 = await HOGWETHPool.slot0();
+      const tickSpacing = await HOGWETHPool.tickSpacing();
+      let nearestTick = getNearestUsableTick(parseInt(slot0.tick), tickSpacing);
+      //Choose arbitarry tick for testing
+      const lowerTick = nearestTick - tickSpacing * 50;
+      const upperTick = nearestTick + tickSpacing * 50;
       //I will need an NFT position manager
-      //   const v3Info = {
-      //     lowerBound:
-      //      upperBound:
-      //      userToken:
-      //      token0AmountDesired:
-      //      token1AmountDesired:};
+      const amountT0 = new bigDecimal(10 * 10 ** 18);
+      const v3Info = {
+        desiredPool: HOGWETHPool.address,
+        centerTick: nearestTick,
+        width: 50,
+        userToken: mockWeth.address,
+        token0AmountDesired: amountT0.getValue(),
+        token1AmountDesired: amountT0,
+      };
+
+      await V3Vault.mintPosition(v3Info);
     });
   });
 });

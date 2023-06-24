@@ -8,7 +8,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   console.log("dep", deployer);
   let args = ["HOG", "HOG", deployer];
   //They deploy a governnace token first
-  const HOG = await deploy("MockHog", {
+  const mockHog = await deploy("MockHog", {
     from: deployer,
     args: args,
     log: true,
@@ -61,6 +61,29 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     blockConfirmations: 2,
   });
   console.log(friendlyVault.address);
+  log("------------------------------------------------------------");
+  console.log(
+    "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+    mockHog.address,
+    3000,
+    "0xc36442b4a4522e871399cd717abdd847ab11fe88"
+  );
+
+  args = [
+    "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+    mockHog.address,
+    3000,
+    "0xc36442b4a4522e871399cd717abdd847ab11fe88",
+  ];
+  const V3Vault = await deploy("V3Vault", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+  console.log("112");
+
+  console.log(V3Vault.address);
   log("------------------------------------------------------------");
   args = [timeLock.address, 10, 10, nonAddy, [friendlyVault.address]];
 
