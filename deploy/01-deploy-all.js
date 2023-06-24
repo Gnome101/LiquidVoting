@@ -22,8 +22,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
-  console.log(HOG.address);
-  console.log(HOG.address);
+
   //They deploy the GSC next, I will skip this because I cannot find its code
   // args = [];
   // const governanceSteering = await deploy("governanceSteering", {

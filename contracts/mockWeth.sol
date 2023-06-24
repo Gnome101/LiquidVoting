@@ -6,7 +6,7 @@ import "./libraries/ERC20PermitWithMint.sol";
 
 pragma solidity ^0.8.0;
 
-contract MockERC20 is ERC20PermitWithMint {
+contract MockWeth is ERC20PermitWithMint {
     constructor(
         string memory name_,
         string memory symbol_,

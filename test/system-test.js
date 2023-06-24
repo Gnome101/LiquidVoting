@@ -16,7 +16,8 @@ describe("Council Tests", function () {
     deployer = accounts[0];
     user = accounts[1];
     await deployments.fixture(["all"]);
-    hogToken = await ethers.getContract("MockERC20");
+    hogToken = await ethers.getContract("MockHog");
+    mockWeth = await ethers.getContract("MockWeth");
     Treasury = await ethers.getContract("Treasury");
     timeLock = await ethers.getContract("Timelock");
     coreVoting = await ethers.getContract("CoreVoting");
@@ -63,13 +64,16 @@ describe("Council Tests", function () {
         let price = 10;
         let sqrtPrice;
 
-        let erc20Address = [hog.address, mockWeth.address];
+        //Need to sort before hand of coruse
+        let erc20Address = [mockWeth.address, mockHog.address];
         erc20Address = erc20Address.sort();
+
+        
       })
       it("user can build a v3 position", async () => {
         //I will need an NFT position manager
         const v3Info = {
-          lowerBound
+          lowerBound:
            upperBound:
            userToken:
            token0AmountDesired:
