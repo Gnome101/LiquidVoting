@@ -5,7 +5,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deployer } = await getNamedAccounts();
   log("------------------------------------------------------------");
   //const decim = ethers.utils.parseEther("1");
-  let args = [];
+  let args = ["HOG", "HOG", deployer.address];
   //They deploy a governnace token first
   const HOG = await deploy("IERC20", {
     from: deployer,
