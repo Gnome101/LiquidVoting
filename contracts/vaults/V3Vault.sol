@@ -5,6 +5,8 @@ import "../libraries/History.sol";
 import "../libraries/Storage.sol";
 import "./IERC721.sol";
 
+import "@uniswap/v3-periphery/contracts/interfaces/INonfungiblePositionManager.sol";
+
 contract NFTVault {
     // Bring our libraries into scope
     using History for *;
@@ -12,9 +14,10 @@ contract NFTVault {
 
     // Only immutables can be declared without using the hash locations
     IERC721 immutable token;
-
-    constructor(IERC721 _token) {
+    uint256 immutable feeTier;
+    constructor(IERC721 _token, uint256 _feeTier) {
         token = _token;
+        feeTier  =_feeTier;
     }
 
     /// @notice Returns the historical voting power tracker
@@ -41,7 +44,26 @@ contract NFTVault {
         // Push their new voting power
         votingPower.push(msg.sender, currentVotes + 1);
     }
+    struct V3Info = {
 
+    }
+    function mintPosition(positionInfo ) external {
+         INonfungiblePositionManager.MintParams
+            memory params = INonfungiblePositionManager.MintParams({
+                token0: ,
+                token1: ,
+                fee: feeTier,
+                tickLower: ,
+                tickUpper:,
+                amount0Desired: ,
+                amount1Desired: ,
+                amount0Min: ,
+                amount1Min: ,
+                recipient: ,
+                deadline: 
+            });
+       
+    }
     /// @notice Attempts to load the voting power of a user
     /// @param user The address we want to load the voting power of
     /// @param blockNumber the block number at which we want the user's voting power

@@ -54,7 +54,9 @@ describe("Council Tests", function () {
     console.log(proposalInfo.toString());
 
     describe("V3 testing", () => {
-      it("user can build a v3 position", async () => {});
+      it("user can build a v3 position", async () => {
+        //I will need an NFT position manager
+      });
     });
   });
 });
