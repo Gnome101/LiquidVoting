@@ -5,7 +5,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deployer } = await getNamedAccounts();
   log("------------------------------------------------------------");
   //const decim = ethers.utils.parseEther("1");
-  let args = ["HOG", "HOG", deployer.address];
+  console.log("dep", deployer);
+  let args = ["HOG", "HOG", deployer];
   //They deploy a governnace token first
   const HOG = await deploy("MockERC20", {
     from: deployer,
@@ -25,7 +26,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   // console.log(governanceSteering.address);
   log("------------------------------------------------------------");
   const nonAddy = "0x0000000000000000000000000000000000000000";
-  args = [10, deployer.address, nonAddy];
+  args = [10, deployer, nonAddy];
   //I am setting the GSC as 0
   const timeLock = await deploy("Timelock", {
     from: deployer,
@@ -44,7 +45,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
   console.log(votingVault.address);
   log("------------------------------------------------------------");
-  args = [timeLock.address, , 10, 10, nonAddy, 10, 20];
+  args = [timeLock.address, 10, 10, nonAddy, []];
 
   const coreVoting = await deploy("CoreVoting", {
     from: deployer,
