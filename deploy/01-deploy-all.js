@@ -24,8 +24,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   // });
   // console.log(governanceSteering.address);
   log("------------------------------------------------------------");
-  const nonAddy = "0x0000000000000000000000000000000000000000"
-  args = [10,deployer.address,nonAddy];
+  const nonAddy = "0x0000000000000000000000000000000000000000";
+  args = [10, deployer.address, nonAddy];
   //I am setting the GSC as 0
   const timeLock = await deploy("Timelock", {
     from: deployer,
@@ -44,7 +44,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
   console.log(votingVault.address);
   log("------------------------------------------------------------");
-  args = [timeLock.address,,10,10,];
+  args = [timeLock.address, , 10, 10, nonAddy, 10, 20];
 
   const coreVoting = await deploy("coreVoting", {
     from: deployer,
@@ -54,5 +54,5 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   });
   console.log(coreVoting.address);
 };
-};
+
 module.exports.tags = ["all", "DAO", "Tools"];
