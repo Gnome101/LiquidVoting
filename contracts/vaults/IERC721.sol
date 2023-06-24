@@ -1,4 +1,5 @@
-// OpenZeppelin Contracts v4.4.1 (utils/introspection/IERC165.sol)
+// SPDX-License-Identifier: MIT
+// OpenZeppelin Contracts (last updated v4.9.0) (token/ERC721/IERC721.sol)
 
 pragma solidity ^0.8.3;
 
@@ -22,10 +23,6 @@ interface IERC165 {
      */
     function supportsInterface(bytes4 interfaceId) external view returns (bool);
 }
-// SPDX-License-Identifier: MIT
-// OpenZeppelin Contracts (last updated v4.9.0) (token/ERC721/IERC721.sol)
-
-pragma solidity ^0.8.3;
 
 /**
  * @dev Required interface of an ERC721 compliant contract.

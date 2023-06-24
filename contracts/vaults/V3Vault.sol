@@ -3,23 +3,21 @@ pragma solidity ^0.8.3;
 
 import "../libraries/History.sol";
 import "../libraries/Storage.sol";
+import "./IERC721.sol";
+import "./IVotingVault.sol";
 
-// import "./IERC721.sol";
+import "../interfaces/INonfungiblePositionManager.sol";
 
-//import "../interfaces/INonfungiblePositionManager.sol";
-
-contract NFTVault {
+contract NFTVault is IVotingVault {
     // Bring our libraries into scope
     using History for *;
     using Storage for *;
 
     // Only immutables can be declared without using the hash locations
-    //IERC721 immutable token;
-    uint256 immutable feeTier;
+    IERC721 immutable token;
 
-    constructor(uint256 _feeTier) {
-        //token = _token;
-        feeTier = _feeTier;
+    constructor(IERC721 _token) {
+        token = _token;
     }
 
     /// @notice Returns the historical voting power tracker
@@ -36,41 +34,17 @@ contract NFTVault {
 
     /// @notice Transfers one NFT of our collection to this contract and then adds one vote to the user's voting power
     /// @param tokenId The token Id, not the NFT to transfer.
-    // function deposit(uint256 tokenId) external {
-    //     // Get the token from the user
-    //     token.transferFrom(msg.sender, address(this), tokenId);
-    //     // Get the hash pointer to the history mapping
-    //     History.HistoricalBalances memory votingPower = _votingPower();
-    //     // Load the user votes
-    //     uint256 currentVotes = votingPower.loadTop(msg.sender);
-    //     // Push their new voting power
-    //     votingPower.push(msg.sender, currentVotes + 1);
-    // }
+    function deposit(uint256 tokenId) external {
+        // Get the token from the user
+        token.transferFrom(msg.sender, address(this), tokenId);
+        // Get the hash pointer to the history mapping
+        History.HistoricalBalances memory votingPower = _votingPower();
+        // Load the user votes
+        uint256 currentVotes = votingPower.loadTop(msg.sender);
+        // Push their new voting power
+        votingPower.push(msg.sender, currentVotes + 1);
+    }
 
-    // struct v3Info = {
-    //     int24 lowerBound;
-    //     int24 upperBound;
-    //     address userToken;
-    //     uint256 token0AmountDesired;
-    //     uint256 token1AmountDesired;
-    // }
-    // function mintPosition(v3Info thisInfo) external {
-    //      INonfungiblePositionManager.MintParams
-    //         memory params = INonfungiblePositionManager.MintParams({
-    //             token0: thisInfo.,
-    //             token1: ,
-    //             fee: feeTier,
-    //             tickLower: ,
-    //             tickUpper:,
-    //             amount0Desired: ,
-    //             amount1Desired: ,
-    //             amount0Min: ,
-    //             amount1Min: ,
-    //             recipient: ,
-    //             deadline:
-    //         });
-
-    // }
     /// @notice Attempts to load the voting power of a user
     /// @param user The address we want to load the voting power of
     /// @param blockNumber the block number at which we want the user's voting power
@@ -79,7 +53,7 @@ contract NFTVault {
         address user,
         uint256 blockNumber,
         bytes calldata
-    ) external returns (uint256) {
+    ) external override returns (uint256) {
         // Get our reference to historical data
         History.HistoricalBalances memory votingPower = _votingPower();
         // Find the historical data in our mapping
