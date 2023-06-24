@@ -53,6 +53,8 @@ describe("Council Tests", function () {
     const proposalInfo = await coreVoting.proposals(0);
     console.log(proposalInfo.toString());
 
-    describe("v3 testing");
+    describe("V3 testing", () => {
+      it("user can build a v3 position", async () => {});
+    });
   });
 });
