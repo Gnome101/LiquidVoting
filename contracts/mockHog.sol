@@ -4,7 +4,7 @@
 
 import "./libraries/ERC20PermitWithMint.sol";
 
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.3;
 
 contract MockHog is ERC20PermitWithMint {
     constructor(

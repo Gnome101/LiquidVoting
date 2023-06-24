@@ -79,14 +79,18 @@ module.exports = {
     compilers: [
       {
         version: "0.8.18",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 100,
-          },
-        },
       },
     ],
+    overrides: {
+      "contracts/interfaces/INonfungiblePositionManager.sol": {
+        version: "0.7.5",
+        settings: {},
+      },
+      "@uniswap/v3-periphery/contracts/libraries/PoolAddress.sol": {
+        version: "0.7.5",
+        settings: {},
+      },
+    },
   },
   mocha: {
     timeout: 500000, // 500 seconds max for running tests
