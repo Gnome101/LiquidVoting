@@ -7,8 +7,9 @@ const {
 const bigDecimal = require("js-big-decimal");
 describe("Council Tests", function () {
   //This is every contract or that we will call on/use
-  let hogToken, Treasury, timeLock, coreVoting;
+  let hogToken, Treasury, timeLock, coreVoting,mockWeth;
 
+  const hundy = ethers.utils.parseEther("100");
   const ten = ethers.utils.parseEther("10");
   beforeEach(async () => {
     accounts = await ethers.getSigners(); // could also do with getNamedAccounts
@@ -54,8 +55,25 @@ describe("Council Tests", function () {
     console.log(proposalInfo.toString());
 
     describe("V3 testing", () => {
+      let hog
+      beforeEach(async () =>{
+        const fee = 3000;
+        const decimals = 18;
+        //Price of one Hogwell in EPICDai
+        let price = 10;
+        let sqrtPrice;
+
+        let erc20Address = [hog.address, mockWeth.address];
+        erc20Address = erc20Address.sort();
+      })
       it("user can build a v3 position", async () => {
         //I will need an NFT position manager
+        const v3Info = {
+          lowerBound
+           upperBound:
+           userToken:
+           token0AmountDesired:
+           token1AmountDesired:};
       });
     });
   });

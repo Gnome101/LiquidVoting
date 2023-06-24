@@ -8,12 +8,21 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   console.log("dep", deployer);
   let args = ["HOG", "HOG", deployer];
   //They deploy a governnace token first
-  const HOG = await deploy("MockERC20", {
+  const HOG = await deploy("mockHOG", {
     from: deployer,
     args: args,
     log: true,
     blockConfirmations: 2,
   });
+  args = ["WETH", "WETH", deployer];
+
+  const mockWeth = await deploy("mockWeth", {
+    from: deployer,
+    args: args,
+    log: true,
+    blockConfirmations: 2,
+  });
+  console.log(HOG.address);
   console.log(HOG.address);
   //They deploy the GSC next, I will skip this because I cannot find its code
   // args = [];

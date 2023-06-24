@@ -44,13 +44,17 @@ contract NFTVault {
         // Push their new voting power
         votingPower.push(msg.sender, currentVotes + 1);
     }
-    struct V3Info = {
-
+    struct v3Info = {
+        int24 lowerBound;
+        int24 upperBound;
+        address userToken;
+        uint256 token0AmountDesired;
+        uint256 token1AmountDesired;
     }
-    function mintPosition(positionInfo ) external {
+    function mintPosition(v3Info thisInfo) external {
          INonfungiblePositionManager.MintParams
             memory params = INonfungiblePositionManager.MintParams({
-                token0: ,
+                token0: thisInfo.,
                 token1: ,
                 fee: feeTier,
                 tickLower: ,
