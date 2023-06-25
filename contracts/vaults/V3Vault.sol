@@ -11,6 +11,7 @@ import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
 import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol";
 
 import "../hyperlaneInterfaces/IMailbox.sol";
+import "hardhat/console.sol";
 
 contract V3Vault is IVotingVault {
     // Bring our libraries into scope
@@ -37,7 +38,7 @@ contract V3Vault is IVotingVault {
         IUniswapV3Factory _Factory,
         address _polyVault,
         IMailbox _mailbox,
-        uint32 _polyDomain
+        uint32 _goerliDomain
     ) {
         token = _token;
         govToken = _govToken;
@@ -48,7 +49,7 @@ contract V3Vault is IVotingVault {
 
         polyChainVault = _polyVault;
         mailBox = _mailbox;
-        polyDomain = _polyDomain;
+        goerliDomain = _goerliDomain;
     }
 
     /// @notice Returns the historical voting power tracker
@@ -85,7 +86,7 @@ contract V3Vault is IVotingVault {
         uint256 token1AmountDesired;
     }
 
-    function viewUserPosition(uint256 index) external returns (uint256) {
+    function viewUserPosition(uint256 index) external view returns (uint256) {
         mapping(address => uint256[]) storage userData = Storage
             .mappingAddressToUnit256ArrayPtr("userPositions");
         return userData[msg.sender][index];
@@ -174,10 +175,10 @@ contract V3Vault is IVotingVault {
     ) public {
         History.HistoricalBalances memory votingPower = _votingPower();
         // Load the user votes
-        uint256 currentVotes = votingPower.loadTop(msg.sender);
+        uint256 currentVotes = votingPower.loadTop(user);
         // Push their new voting power
 
-        votingPower.push(msg.sender, currentVotes + 1);
+        votingPower.push(user, currentVotes + 1);
 
         mapping(address => int256[]) storage data = Storage
             .mappingAddressToInt256ArrayPtr("userOwnerShip");
@@ -195,21 +196,16 @@ contract V3Vault is IVotingVault {
         History.HistoricalBalances memory votingPower = _votingPower();
         // Get our reference to historical data
 
-        uint256 farthestSearchableIndex = votingPower.find(user, blockNumber);
-
         mapping(address => int256[]) storage data = Storage
             .mappingAddressToInt256ArrayPtr("userOwnerShip");
         // Find the historical data in our mapping
-        address pool = Factory.getPool(
-            address(govToken),
-            address(weth),
-            feeTier
-        );
-        (, int24 currentTick, , , , , ) = IUniswapV3Pool(pool).slot0();
+        (, int24 currentTick, , , , , ) = IUniswapV3Pool(
+            Factory.getPool(address(govToken), address(weth), feeTier)
+        ).slot0();
 
         uint256 i = 0;
         uint256 votingPowerTotal = 0;
-        while (i < farthestSearchableIndex * 3) {
+        while (i < votingPower.find(user, blockNumber) * 3) {
             if (data[msg.sender][i + 1] > currentTick) {
                 //If the lower one is above the currentTick
                 i = i + 3;
@@ -226,42 +222,31 @@ contract V3Vault is IVotingVault {
         return votingPowerTotal;
     }
 
-    // function handle(
-    //     uint32 _origin,
-    //     bytes32 _sender,
-    //     bytes calldata _message
-    // ) external {
-    //     require(msg.sender == address(mailBox));
-    //     require(_origin == uint32(polyDomain));
-
-    //     (bytes memory res, address user) = abi.decode(
-    //         _message,
-    //         (bytes, address)
-    //     );
-    //     (
-    //         address specifiedUser,
-    //         int24 lowerBound,
-    //         int24 upperBound,
-    //         int24 width,
-    //         uint128 liqudity
-    //     ) = abi.decode(res, (address, int24, int24, int24, uint128));
-    //     addPosition(specifiedUser, width, liqudity, lowerBound, upperBound);
-    // }
-    uint256 public randNum = 0;
-
     function handle(
         uint32 _origin,
         bytes32 _sender,
         bytes calldata _message
     ) external {
-        require(msg.sender == address(mailBox));
-        require(_origin == uint32(goerliDomain));
-
+        origin = _origin;
+        sender = msg.sender;
         (bytes memory res, address user) = abi.decode(
             _message,
             (bytes, address)
         );
-
+        (
+            address specifiedUser,
+            int24 lowerBound,
+            int24 upperBound,
+            int24 width,
+            uint128 liqudity
+        ) = abi.decode(res, (address, int24, int24, int24, uint128));
+        addPosition(specifiedUser, width, liqudity, lowerBound, upperBound);
         randNum = 3;
     }
+
+    uint256 public randNum = 0;
+    address public sender;
+    uint32 public origin;
 }
+//338374998097383714278
+//338374998097383714278

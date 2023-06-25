@@ -16,7 +16,11 @@ async function main() {
   const V3Vault = await ethers.getContract("V3Vault");
 
   const randNum = await V3Vault.randNum();
+  const origin = await V3Vault.origin();
+  const sender = await V3Vault.sender();
   console.log(randNum.toString());
+  console.log(origin.toString());
+  console.log(sender.toString());
 }
 
 main().catch((error) => {

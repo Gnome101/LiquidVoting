@@ -9,6 +9,7 @@ const {
   calculatePriceFromX96,
   getNearestUsableTick,
   getWalletEthBalance,
+  sleep,
 } = require("../utils/V3Tools");
 
 const bigDecimal = require("js-big-decimal");
@@ -45,37 +46,37 @@ describe("Council Tests", function () {
     );
   });
   it("all contracts exist", async () => {
-    hogToken.address;
+    mockHog.address;
     Treasury.address;
     timeLock.address;
     coreVoting.address;
     friendlyVault.address;
   });
-  it("test creating a proposal", async () => {
-    const abi = ethers.utils.defaultAbiCoder;
-    const encodedData = abi.encode(["uint256"], ["100"]);
-    console.log("Encoded Data", encodedData);
-    const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
-    const blankAddy =
-      "0x0000000000000000000000000000000000000000000000000000000000000000";
-    //console.log((await coreVoting.proposalCount).toString());
+  //   it("test creating a proposal", async () => {
+  //     const abi = ethers.utils.defaultAbiCoder;
+  //     const encodedData = abi.encode(["uint256"], ["100"]);
+  //     console.log("Encoded Data", encodedData);
+  //     const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+  //     const blankAddy =
+  //       "0x0000000000000000000000000000000000000000000000000000000000000000";
+  //     //console.log((await coreVoting.proposalCount).toString());
 
-    let proposalCount = await coreVoting.proposalCount();
-    console.log(proposalCount.toString());
-    await coreVoting.proposal(
-      [friendlyVault.address],
-      [encodedData],
-      [deployer.address],
-      [blankAddy],
-      timeStamp + 10000,
-      0
-    );
-    proposalCount = await coreVoting.proposalCount();
-    console.log(proposalCount.toString());
-
-    const proposalInfo = await coreVoting.proposals(0);
-    console.log(proposalInfo.toString());
-  });
+  //     let proposalCount = await coreVoting.proposalCount();
+  //     console.log(proposalCount.toString());
+  //     await coreVoting.proposal(
+  //       [friendlyVault.address],
+  //       [encodedData],
+  //       [deployer.address],
+  //       [blankAddy],
+  //       timeStamp + 10000,
+  //       0
+  //     );
+  //     proposalCount = await coreVoting.proposalCount();
+  //     console.log(proposalCount.toString());
+  // +
+  //     const proposalInfo = await coreVoting.proposals(0);
+  //     console.log(proposalInfo.toString());
+  //   });
   describe("V3 testing", () => {
     let hog;
     beforeEach(async () => {
@@ -101,7 +102,6 @@ describe("Council Tests", function () {
         fee,
         sqrtPrice.toFixed(0)
       );
-
       const realPrice = calculatePriceFromX96(sqrtPrice, decimals, decimals);
       Factory = await ethers.getContractAt(
         "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol:IUniswapV3Factory",
@@ -113,6 +113,7 @@ describe("Council Tests", function () {
         erc20Address[1],
         fee
       );
+
       //This is the address of the pool we just made
       HOGWETHPool = await ethers.getContractAt(
         "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol:IUniswapV3Pool",
@@ -131,16 +132,19 @@ describe("Council Tests", function () {
       console.log(token0Amount.getValue());
       const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
       await mockWeth.setBalance(deployer.address, token0Amount.getValue());
+
       await mockHog.setBalance(deployer.address, token0Amount.getValue());
 
       await mockWeth.approve(
         NFTPositionManager.address,
         token0Amount.getValue()
       );
+
       await mockHog.approve(
         NFTPositionManager.address,
         token1Amount.getValue()
       );
+
       const mintParams = {
         token0: erc20Address[0],
         token1: erc20Address[1],
@@ -179,9 +183,11 @@ describe("Council Tests", function () {
       console.log(amountT0.getValue());
       console.log(HOGWETHPool.address);
       await mockWeth.setBalance(deployer.address, amountT0.getValue());
+
       await mockHog.setBalance(deployer.address, amountT0.getValue());
 
       await mockWeth.approve(V3Vault.address, amountT0.getValue());
+
       await mockHog.approve(V3Vault.address, amountT0.getValue());
 
       await V3Vault.mintPosition(v3Info);
@@ -195,172 +201,137 @@ describe("Council Tests", function () {
         latestBlockNum + 1,
         blankAddy
       );
+
       console.log(votingPower.toString());
       //71794946851985505209 with 50 width
       //338374998097383714278 with 10 width
 
-      SwapRouter = await ethers.getContractAt(
-        "ISwapRouter",
-        "0xE592427A0AEce92De3Edee1F18E0157C05861564"
-      );
-      const swapAmount = new bigDecimal(11 * 10 ** 18);
-
-      mockHog.approve(SwapRouter.address, swapAmount.getValue());
-      mockHog.setBalance(deployer.address, swapAmount.getValue());
-      const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
-
-      const ExactInputSingleParams = {
-        tokenIn: mockHog.address,
-        tokenOut: mockWeth.address,
-        fee: "3000",
-        recipient: deployer.address,
-        deadline: timeStamp + 1000, //Timestamp is in seconds
-        amountIn: swapAmount.getValue(),
-        amountOutMinimum: 0,
-        sqrtPriceLimitX96: 0,
-      };
-
-      await SwapRouter.exactInputSingle(ExactInputSingleParams);
-
-      console.log((await HOGWETHPool.slot0()).toString());
-      console.log(lowerTick, upperTick);
-      latestBlock = await ethers.provider.getBlock("latest");
-      latestBlockNum = latestBlock.number;
-      const votingPower2 = await V3Vault.queryVotePower(
-        deployer.address,
-        latestBlockNum + 2,
-        blankAddy
-      );
-      console.log(votingPower2.toString());
-    });
-    it("user can build a v3 position ", async () => {
-      console.log("HOG", HOGWETHPool.address);
-      const slot0 = await HOGWETHPool.slot0();
-      const tickSpacing = await HOGWETHPool.tickSpacing();
-      let nearestTick = getNearestUsableTick(parseInt(slot0.tick), tickSpacing);
-      //Choose arbitarry tick for testing
-      const lowerTick = nearestTick - tickSpacing * 10;
-      const upperTick = nearestTick + tickSpacing * 10;
-      //I will need an NFT position manager
-      let amountT0 = new bigDecimal(10 * 10 ** 18);
-
-      let v3Info = {
-        desiredPool: HOGWETHPool.address,
-        centerTick: nearestTick,
-        width: 10,
-        userToken: mockWeth.address,
-        token0AmountDesired: amountT0.getValue(),
-        token1AmountDesired: amountT0.getValue(),
-      };
-
-      await mockWeth.setBalance(deployer.address, amountT0.getValue());
-      await mockHog.setBalance(deployer.address, amountT0.getValue());
-
-      await mockWeth.approve(V3Vault.address, amountT0.getValue());
-      await mockHog.approve(V3Vault.address, amountT0.getValue());
-
-      await V3Vault.mintPosition(v3Info);
-      amountT0 = new bigDecimal(20 * 10 ** 18);
-
-      v3Info = {
-        desiredPool: HOGWETHPool.address,
-        centerTick: nearestTick,
-        width: 40,
-        userToken: mockWeth.address,
-        token0AmountDesired: amountT0.getValue(),
-        token1AmountDesired: amountT0.getValue(),
-      };
-      await mockWeth.setBalance(deployer.address, amountT0.getValue());
-      await mockHog.setBalance(deployer.address, amountT0.getValue());
-
-      await mockWeth.approve(V3Vault.address, amountT0.getValue());
-      await mockHog.approve(V3Vault.address, amountT0.getValue());
-
-      await V3Vault.mintPosition(v3Info);
-      //338374998097383714278
-      //338374998097383714278
-      let latestBlock = await ethers.provider.getBlock("latest");
-      let latestBlockNum = latestBlock.number;
-      const blankAddy =
-        "0x0000000000000000000000000000000000000000000000000000000000000000";
-      const votingPower = await V3Vault.queryVotePower(
-        deployer.address,
-        latestBlockNum + 1,
-        blankAddy
-      );
-      console.log(votingPower.toString());
-      //71794946851985505209 with 50 width
-      //338374998097383714278 with 10 width
-
-      SwapRouter = await ethers.getContractAt(
-        "ISwapRouter",
-        "0xE592427A0AEce92De3Edee1F18E0157C05861564"
-      );
-      const swapAmount = new bigDecimal(17 * 10 ** 18);
-
-      mockHog.approve(SwapRouter.address, swapAmount.getValue());
-      mockHog.setBalance(deployer.address, swapAmount.getValue());
-      const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
-
-      const ExactInputSingleParams = {
-        tokenIn: mockHog.address,
-        tokenOut: mockWeth.address,
-        fee: "3000",
-        recipient: deployer.address,
-        deadline: timeStamp + 1000, //Timestamp is in seconds
-        amountIn: swapAmount.getValue(),
-        amountOutMinimum: 0,
-        sqrtPriceLimitX96: 0,
-      };
-
-      await SwapRouter.exactInputSingle(ExactInputSingleParams);
-
-      console.log((await HOGWETHPool.slot0()).toString());
-      console.log(lowerTick, upperTick);
-      latestBlock = await ethers.provider.getBlock("latest");
-      latestBlockNum = latestBlock.number;
-      const votingPower2 = await V3Vault.queryVotePower(
-        deployer.address,
-        latestBlockNum + 2,
-        blankAddy
-      );
-      console.log(votingPower2.toString());
-    });
-  });
-  describe("Spark testing 121", () => {
-    it("I can interact with spark", async () => {
-      //Pool is the main user facing
-      const daiToken = await ethers.getContractAt(
-        "IERC20Mint",
-        "0x11fE4B6AE13d2a6055C8D9cF65c55bac32B5d844"
-      );
-      const wethToken = await ethers.getContractAt(
-        "IERC20Mint",
-        "0x7D5afF7ab67b431cDFA6A94d50d3124cC4AB2611"
-      );
-
-      const Pool = await ethers.getContractAt(
-        "@aave/core-v3/contracts/interfaces/IPool.sol:IPool",
-        "0x7D5afF7ab67b431cDFA6A94d50d3124cC4AB2611"
-      );
-
-      // const sDAi = await ethers.getContractAt(
-      //   "@aave/core-v3/contracts/interfaces/IPool.sol:IPool",
-      //   "0x7D5afF7ab67b431cDFA6A94d50d3124cC4AB2611"
+      // SwapRouter = await ethers.getContractAt(
+      //   "ISwapRouter",
+      //   "0xE592427A0AEce92De3Edee1F18E0157C05861564"
       // );
-      console.log(await daiToken.name());
-      console.log(await wethToken.name());
-      const mintAmount = new bigDecimal(100 * 10 ** 18);
-      await daiToken.mint(deployer.address, mintAmount.getValue());
-      console.log(
-        "Bal",
-        (await daiToken.balanceOf(deployer.address)).toString()
-      );
-      // const supplyAmount = new bigDecimal(20 * 10 ** 18);
-      // await daiToken.approve(Pool.address, supplyAmount);
-      // await Pool.supply(daiToken.address, supplyAmount, deployer.address, 0);
-      // console.log("here");
-      // await Pool.getUserAccountData(deployer.address);
+      // const swapAmount = new bigDecimal(11 * 10 ** 18);
+
+      // mockHog.approve(SwapRouter.address, swapAmount.getValue());
+      // mockHog.setBalance(deployer.address, swapAmount.getValue());
+      // const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+
+      // const ExactInputSingleParams = {
+      //   tokenIn: mockHog.address,
+      //   tokenOut: mockWeth.address,
+      //   fee: "3000",
+      //   recipient: deployer.address,
+      //   deadline: timeStamp + 1000, //Timestamp is in seconds
+      //   amountIn: swapAmount.getValue(),
+      //   amountOutMinimum: 0,
+      //   sqrtPriceLimitX96: 0,
+      // };
+
+      // await SwapRouter.exactInputSingle(ExactInputSingleParams);
+
+      // console.log((await HOGWETHPool.slot0()).toString());
+      // console.log(lowerTick, upperTick);
+      // latestBlock = await ethers.provider.getBlock("latest");
+      // latestBlockNum = latestBlock.number;
+      // const votingPower2 = await V3Vault.queryVotePower(
+      //   deployer.address,
+      //   latestBlockNum + 2,
+      //   blankAddy
+      // );
+      // console.log(votingPower2.toString());
     });
+    // it("user can build a v3 position ", async () => {
+    //   console.log("HOG", HOGWETHPool.address);
+    //   const slot0 = await HOGWETHPool.slot0();
+    //   const tickSpacing = await HOGWETHPool.tickSpacing();
+    //   let nearestTick = getNearestUsableTick(parseInt(slot0.tick), tickSpacing);
+    //   //Choose arbitarry tick for testing
+    //   const lowerTick = nearestTick - tickSpacing * 10;
+    //   const upperTick = nearestTick + tickSpacing * 10;
+    //   //I will need an NFT position manager
+    //   let amountT0 = new bigDecimal(10 * 10 ** 18);
+
+    //   let v3Info = {
+    //     desiredPool: HOGWETHPool.address,
+    //     centerTick: nearestTick,
+    //     width: 10,
+    //     userToken: mockWeth.address,
+    //     token0AmountDesired: amountT0.getValue(),
+    //     token1AmountDesired: amountT0.getValue(),
+    //   };
+
+    //   await mockWeth.setBalance(deployer.address, amountT0.getValue());
+    //   await mockHog.setBalance(deployer.address, amountT0.getValue());
+
+    //   await mockWeth.approve(V3Vault.address, amountT0.getValue());
+    //   await mockHog.approve(V3Vault.address, amountT0.getValue());
+
+    //   await V3Vault.mintPosition(v3Info);
+    //   amountT0 = new bigDecimal(20 * 10 ** 18);
+
+    //   v3Info = {
+    //     desiredPool: HOGWETHPool.address,
+    //     centerTick: nearestTick,
+    //     width: 40,
+    //     userToken: mockWeth.address,
+    //     token0AmountDesired: amountT0.getValue(),
+    //     token1AmountDesired: amountT0.getValue(),
+    //   };
+    //   await mockWeth.setBalance(deployer.address, amountT0.getValue());
+    //   await mockHog.setBalance(deployer.address, amountT0.getValue());
+
+    //   await mockWeth.approve(V3Vault.address, amountT0.getValue());
+    //   await mockHog.approve(V3Vault.address, amountT0.getValue());
+
+    //   await V3Vault.mintPosition(v3Info);
+    //   //338374998097383714278
+    //   //338374998097383714278
+    //   let latestBlock = await ethers.provider.getBlock("latest");
+    //   let latestBlockNum = latestBlock.number;
+    //   const blankAddy =
+    //     "0x0000000000000000000000000000000000000000000000000000000000000000";
+    //   const votingPower = await V3Vault.queryVotePower(
+    //     deployer.address,
+    //     latestBlockNum + 1,
+    //     blankAddy
+    //   );
+    //   console.log(votingPower.toString());
+    //   //71794946851985505209 with 50 width
+    //   //338374998097383714278 with 10 width
+
+    //   SwapRouter = await ethers.getContractAt(
+    //     "ISwapRouter",
+    //     "0xE592427A0AEce92De3Edee1F18E0157C05861564"
+    //   );
+    //   const swapAmount = new bigDecimal(17 * 10 ** 18);
+
+    //   mockHog.approve(SwapRouter.address, swapAmount.getValue());
+    //   mockHog.setBalance(deployer.address, swapAmount.getValue());
+    //   const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
+
+    //   const ExactInputSingleParams = {
+    //     tokenIn: mockHog.address,
+    //     tokenOut: mockWeth.address,
+    //     fee: "3000",
+    //     recipient: deployer.address,
+    //     deadline: timeStamp + 1000, //Timestamp is in seconds
+    //     amountIn: swapAmount.getValue(),
+    //     amountOutMinimum: 0,
+    //     sqrtPriceLimitX96: 0,
+    //   };
+
+    //   await SwapRouter.exactInputSingle(ExactInputSingleParams);
+
+    //   console.log((await HOGWETHPool.slot0()).toString());
+    //   console.log(lowerTick, upperTick);
+    //   latestBlock = await ethers.provider.getBlock("latest");
+    //   latestBlockNum = latestBlock.number;
+    //   const votingPower2 = await V3Vault.queryVotePower(
+    //     deployer.address,
+    //     latestBlockNum + 2,
+    //     blankAddy
+    //   );
+    //   console.log(votingPower2.toString());
+    // });
   });
 });

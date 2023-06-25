@@ -17,11 +17,11 @@ async function main() {
   const mockWeth = await ethers.getContract("MockWeth");
   const NFTPositionManager = await ethers.getContractAt(
     "INonfungiblePositionManager",
-    "0xc36442b4a4522e871399cd717abdd847ab11fe88"
+    "0x622e4726a167799826d1E1D150b076A7725f5D81"
   );
   Factory = await ethers.getContractAt(
     "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol:IUniswapV3Factory",
-    "0x1F98431c8aD98523631AE4a59f267346ea31F984"
+    "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6"
   );
   const fee = 3000;
   const decimals = 18;
@@ -38,24 +38,29 @@ async function main() {
   } else {
     sqrtPrice = calculateSqrtPriceX96(1 / price, decimals, decimals);
   }
-  //This is important if the token already has liquidity or not
-  //   const tx = await NFTPositionManager.createAndInitializePoolIfNecessary(
-  //     erc20Address[0], // The token addresses need to be sorted
-  //     erc20Address[1],
-  //     fee,
-  //     sqrtPrice.toFixed(0)
-  //   );
+  //  This is important if the token already has liquidity or not
+  const tx = await NFTPositionManager.createAndInitializePoolIfNecessary(
+    erc20Address[0], // The token addresses need to be sorted
+    erc20Address[1],
+    fee,
+    sqrtPrice.toFixed(0)
+  );
+  await tx.wait();
+  console.log("Pool initialized");
   const realPrice = calculatePriceFromX96(sqrtPrice, decimals, decimals);
   Factory = await ethers.getContractAt(
     "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol:IUniswapV3Factory",
-    "0x1F98431c8aD98523631AE4a59f267346ea31F984"
+    "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6"
   );
-
+  console.log("Hello");
+  console.log(erc20Address[0], erc20Address[1], fee);
   const hogWEThPool = await Factory.getPool(
-    erc20Address[0],
     erc20Address[1],
+    erc20Address[0],
     fee
   );
+  console.log("here112");
+
   //This is the address of the pool we just made
   const HOGWETHPool = await ethers.getContractAt(
     "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol:IUniswapV3Pool",
@@ -73,11 +78,23 @@ async function main() {
 
   console.log(token0Amount.getValue());
   const timeStamp = (await ethers.provider.getBlock("latest")).timestamp;
-  await mockWeth.setBalance(deployer.address, token0Amount.getValue());
-  await mockHog.setBalance(deployer.address, token0Amount.getValue());
+  const tx1 = await mockWeth.setBalance(
+    deployer.address,
+    token0Amount.getValue()
+  );
+  const tx2 = await mockHog.setBalance(
+    deployer.address,
+    token0Amount.getValue()
+  );
 
-  await mockWeth.approve(NFTPositionManager.address, token0Amount.getValue());
-  await mockHog.approve(NFTPositionManager.address, token1Amount.getValue());
+  const tx3 = await mockWeth.approve(
+    NFTPositionManager.address,
+    token0Amount.getValue()
+  );
+  const tx4 = await mockHog.approve(
+    NFTPositionManager.address,
+    token1Amount.getValue()
+  );
   const mintParams = {
     token0: erc20Address[0],
     token1: erc20Address[1],
@@ -91,6 +108,11 @@ async function main() {
     recipient: deployer.address,
     deadline: timeStamp + 1000,
   };
+  await tx1.wait();
+  await tx2.wait();
+  await tx3.wait();
+  await tx4.wait();
+
   await NFTPositionManager.mint(mintParams);
 }
 

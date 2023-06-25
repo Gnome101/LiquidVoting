@@ -9,7 +9,6 @@ import "./IERC721.sol";
 import "../interfaces/IERC20.sol";
 import "../interfaces/INonfungiblePositionManager.sol";
 import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
-import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol";
 
 contract otherChainVault {
     mapping(address => uint256[]) public userPositions;
@@ -26,7 +25,6 @@ contract otherChainVault {
     IInterchainGasPaymaster public immutable interchainGasPaymaster;
     uint32 immutable foreignChainID;
     INonfungiblePositionManager immutable NFTPositionManager;
-    IUniswapV3Factory immutable Factory;
 
     constructor(
         IERC721 _token,
@@ -34,7 +32,6 @@ contract otherChainVault {
         IERC20 _weth,
         uint24 _feeTier,
         INonfungiblePositionManager _NFTPositionManager,
-        IUniswapV3Factory _Factory,
         address mailBoxAddy,
         //address polyQueryAddy,
         address gasAddy,
@@ -45,7 +42,6 @@ contract otherChainVault {
         weth = _weth;
         feeTier = _feeTier;
         NFTPositionManager = _NFTPositionManager;
-        Factory = _Factory;
         mailBox = IMailbox(mailBoxAddy);
         interchainGasPaymaster = IInterchainGasPaymaster(gasAddy);
         foreignChainID = _foreignChainID;
@@ -60,7 +56,10 @@ contract otherChainVault {
         uint256 token1AmountDesired;
     }
 
-    function mintPosition(posInfo memory v3Info, address gnosisUser) external {
+    function mintPosition(
+        posInfo memory v3Info,
+        address gnosisUser
+    ) external payable {
         // Get the token from the user
 
         IERC20(IUniswapV3Pool(v3Info.desiredPool).token0()).transferFrom(
@@ -108,48 +107,37 @@ contract otherChainVault {
         (uint256 tokenId, uint128 liquidity, , ) = NFTPositionManager.mint(
             params
         );
-        // sendPositionInfo(
-        //     msg.sender,
-        //     gnosisUser,
-        //     v3Info.width,
-        //     liquidity,
-        //     lowerBound,
-        //     upperBound,
-        //     0
-        // );
+        //V3Vault address:
+        // 0xc1C87Bb2862ad5dD28d5846eD981c2c088893D2E
+        sendPositionInfo(
+            msg.sender,
+            0xc1C87Bb2862ad5dD28d5846eD981c2c088893D2E,
+            200000,
+            gnosisUser,
+            v3Info.width,
+            liquidity,
+            lowerBound,
+            upperBound
+        );
     }
-
-    // function sendPositionInfo(
-    //     address sender,
-    //     address specifiedUser,
-    //     int24 width,
-    //     uint128 liquidty,
-    //     int24 lowerBound,
-    //     int24 upperBound,
-    //     uint256 gasAmount
-    // ) public {
-    //     bytes memory message = abi.encode(
-    //         specifiedUser,
-    //         lowerBound,
-    //         upperBound,
-    //         width,
-    //         liquidty
-    //     );
-
-    //     bytes32 _messageId = mailBox.dispatch(
-    //         gnosisChainDomain,
-    //         addressToBytes32(mainVotingContract),
-    //         abi.encode(message, sender)
-    //         //abi.encode(message)
-    //     );
-    // }
 
     function sendPositionInfo(
         address sender,
         address destination,
-        uint256 gasAmount
+        uint256 gasAmount,
+        address specifiedUser,
+        int24 width,
+        uint128 liquidty,
+        int24 lowerBound,
+        int24 upperBound
     ) public payable {
-        bytes memory message = abi.encode(912);
+        bytes memory message = abi.encode(
+            specifiedUser,
+            lowerBound,
+            upperBound,
+            width,
+            liquidty
+        );
 
         bytes32 _messageId = mailBox.dispatch(
             foreignChainID,

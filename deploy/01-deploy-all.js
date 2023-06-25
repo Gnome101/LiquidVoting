@@ -78,10 +78,10 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     mockHog.address,
     mockWeth.address,
     3000, //Fee tier
-    "0xc36442b4a4522e871399cd717abdd847ab11fe88", //NFT Position Manager
-    "0x1F98431c8aD98523631AE4a59f267346ea31F984", //Factory
+    "0x622e4726a167799826d1E1D150b076A7725f5D81", //NFT Position Manager
+    "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6", //Factory
     "0xB59963E43D22b68e92011993ac066CfCCDb1a771", //Vault on goerli
-    "0x35231d4c2D8B8ADcB5617A638A0c4548684c7C70", //Mailbox
+    "0xCC737a94FecaeC165AbCf12dED095BB13F037685", //Mailbox
     "5", //Goerli Domain
   ];
   const V3Vault = await deploy("V3Vault", {

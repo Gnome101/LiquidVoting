@@ -17,11 +17,11 @@ async function main() {
   const mockWeth = await ethers.getContract("MockWeth");
   const tokenAmount = new bigDecimal(1000 * 10 ** 18);
   await mockWeth.setBalance(
-    "0x29611D9A06349Ccb3ca23aB7E20aE8bDb62b2aD6",
+    "0x19d96301865fdD07427db3c445508A051BC6D352",
     tokenAmount.getValue()
   );
   await mockHog.setBalance(
-    "0x29611D9A06349Ccb3ca23aB7E20aE8bDb62b2aD6",
+    "0x19d96301865fdD07427db3c445508A051BC6D352",
     tokenAmount.getValue()
   );
 }

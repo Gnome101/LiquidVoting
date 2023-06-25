@@ -14,16 +14,26 @@ async function main() {
   deployer = accounts[0];
 
   const otherVault = await ethers.getContract("otherChainVault");
-  const V3VaultAddy = "0x5Da8F1Cdb111AF8eeECaa097B7B92869dF62CFF4";
+  const V3VaultAddy = "0xc1C87Bb2862ad5dD28d5846eD981c2c088893D2E";
   // address sender,
   // address destination,
   // uint256 gasAmount,
   // uint256 gasCount
   const value = ethers.utils.parseEther("0.002");
   console.log(value.toString());
-  await otherVault.sendPositionInfo(deployer.address, V3VaultAddy, "100000", {
-    value: ethers.utils.parseEther("0.002"),
-  });
+  await otherVault.sendPositionInfo(
+    deployer.address,
+    V3VaultAddy,
+    "200000",
+    deployer.address,
+    10,
+    "338374998097383714278",
+    -10,
+    10,
+    {
+      value: ethers.utils.parseEther("0.002"),
+    }
+  );
 }
 
 main().catch((error) => {
