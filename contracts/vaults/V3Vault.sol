@@ -25,7 +25,6 @@ contract V3Vault is IVotingVault {
     uint24 immutable feeTier;
     INonfungiblePositionManager immutable NFTPositionManager;
     IUniswapV3Factory immutable Factory;
-    address public immutable polyChainVault;
     IMailbox immutable mailBox;
     uint32 public immutable goerliDomain;
 
@@ -36,7 +35,6 @@ contract V3Vault is IVotingVault {
         uint24 _feeTier,
         INonfungiblePositionManager _NFTPositionManager,
         IUniswapV3Factory _Factory,
-        address _polyVault,
         IMailbox _mailbox,
         uint32 _goerliDomain
     ) {
@@ -47,7 +45,6 @@ contract V3Vault is IVotingVault {
         NFTPositionManager = _NFTPositionManager;
         Factory = _Factory;
 
-        polyChainVault = _polyVault;
         mailBox = _mailbox;
         goerliDomain = _goerliDomain;
     }

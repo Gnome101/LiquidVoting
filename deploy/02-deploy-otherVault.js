@@ -6,8 +6,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   log("------------------------------------------------------------");
   //const decim = ethers.utils.parseEther("1");
   console.log("dep", deployer);
-  const mockHog = "0x58b3541343adf4c920748032bA1425569591406A";
-  const mockWeth = "0x6c82C6a018e71dB30FF9FE13579fafc681707f32";
+  const mockHog = "0x963C7950B97e2ce301Eb49Fb1928aA5C7fe8e8eC";
+  const mockWeth = "0x65dbc1F05bF843032c26355f42a6E9a703c75885";
 
   let args = [
     "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",

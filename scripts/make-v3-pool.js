@@ -17,11 +17,11 @@ async function main() {
   const mockWeth = await ethers.getContract("MockWeth");
   const NFTPositionManager = await ethers.getContractAt(
     "INonfungiblePositionManager",
-    "0x622e4726a167799826d1E1D150b076A7725f5D81"
+    "0xC36442b4a4522E871399CD717aBDD847Ab11FE88"
   );
   Factory = await ethers.getContractAt(
     "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol:IUniswapV3Factory",
-    "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6"
+    "0x1F98431c8aD98523631AE4a59f267346ea31F984"
   );
   const fee = 3000;
   const decimals = 18;
@@ -50,7 +50,7 @@ async function main() {
   const realPrice = calculatePriceFromX96(sqrtPrice, decimals, decimals);
   Factory = await ethers.getContractAt(
     "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol:IUniswapV3Factory",
-    "0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6"
+    "0x1F98431c8aD98523631AE4a59f267346ea31F984"
   );
   console.log("Hello");
   console.log(erc20Address[0], erc20Address[1], fee);

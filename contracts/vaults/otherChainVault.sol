@@ -56,10 +56,7 @@ contract otherChainVault {
         uint256 token1AmountDesired;
     }
 
-    function mintPosition(
-        posInfo memory v3Info,
-        address gnosisUser
-    ) external payable {
+    function mintPosition(posInfo memory v3Info) external payable {
         // Get the token from the user
 
         IERC20(IUniswapV3Pool(v3Info.desiredPool).token0()).transferFrom(
@@ -111,9 +108,9 @@ contract otherChainVault {
         // 0xc1C87Bb2862ad5dD28d5846eD981c2c088893D2E
         sendPositionInfo(
             msg.sender,
-            0xc1C87Bb2862ad5dD28d5846eD981c2c088893D2E,
+            0xaD3d2dbAE27c6F17b76487ce0875c33d2047EFa4,
             200000,
-            gnosisUser,
+            msg.sender,
             v3Info.width,
             liquidity,
             lowerBound,

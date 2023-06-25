@@ -18,9 +18,10 @@ async function main() {
   //0x4893376342d5D7b3e31d4184c08b265e5aB2A3f6 is factory for arbgoerli
   const HOGWETHPool = await ethers.getContractAt(
     "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol:IUniswapV3Pool",
-    "0x9a75BE84bD636E2F1FA8c14789072f3d71d90EDb"
+    "0x90c4B83eBD7064e3548498F8DB43E9d66467a2c7"
   );
-  const V3Vault = await ethers.getContract("V3Vault");
+  const otherVault = await ethers.getContract("otherChainVault");
+
   console.log("HOG", HOGWETHPool.address);
   const slot0 = await HOGWETHPool.slot0();
   const tickSpacing = await HOGWETHPool.tickSpacing();
@@ -49,25 +50,21 @@ async function main() {
   await sleep(3000);
   console.log("Tx2 finished");
 
-  const tx3 = await mockWeth.approve(V3Vault.address, amountT0.getValue());
+  const tx3 = await mockWeth.approve(otherVault.address, amountT0.getValue());
   await tx3.wait();
 
   await sleep(3000);
   console.log("Tx3 finished");
 
-  const tx4 = await mockHog.approve(V3Vault.address, amountT0.getValue());
+  const tx4 = await mockHog.approve(otherVault.address, amountT0.getValue());
   await tx4.wait();
   console.log("Tx4 finished");
 
-  await sleep(3000);
-
-  const otherVault = await ethers.getContract("otherChainVault");
-  const V3VaultAddy = "0xc1C87Bb2862ad5dD28d5846eD981c2c088893D2E";
   // address sender,
   // address destination,
   // uint256 gasAmount,
   // uint256 gasCount
-  await otherVault.mintPosition(v3Info, deployer.address, {
+  await otherVault.mintPosition(v3Info, {
     value: ethers.utils.parseEther("0.002"),
   });
 }

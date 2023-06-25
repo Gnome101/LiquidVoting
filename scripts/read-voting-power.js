@@ -4,8 +4,8 @@ async function main() {
   accounts = await ethers.getSigners(); // could also do with getNamedAccounts
   deployer = accounts[0];
   const V3Vault = await ethers.getContract("V3Vault");
-  const tokenIDs = await V3Vault.viewUserPosition(0);
-  console.log("IDS", tokenIDs.toString());
+  // const tokenIDs = await V3Vault.viewUserPosition(0);
+  // console.log("IDS", tokenIDs.toString());
 
   let latestBlock = await ethers.provider.getBlock("latest");
   let latestBlockNum = latestBlock.number;
