@@ -6,18 +6,19 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
   log("------------------------------------------------------------");
   //const decim = ethers.utils.parseEther("1");
   console.log("dep", deployer);
-  const mockHog = "0x5fe9b2cacd42593408a49d97aa061a1666c595e9";
-  const mockWeth = "0x963C7950B97e2ce301Eb49Fb1928aA5C7fe8e8eC";
+  const mockHog = "0x3cA0BDc410F58d04564C07ecD7f9A994F012e04b";
+  const mockWeth = "0x865782BE8B791A8C11D174Da06D60Fa32828459C";
 
   let args = [
-    "0x963C7950B97e2ce301Eb49Fb1928aA5C7fe8e8eC",
-    "0x5fe9b2cacd42593408a49d97aa061a1666c595e9",
-    "0x963C7950B97e2ce301Eb49Fb1928aA5C7fe8e8eC",
+    "0xC36442b4a4522E871399CD717aBDD847Ab11FE88",
+    mockHog,
+    mockWeth,
     3000,
     "0xc36442b4a4522e871399cd717abdd847ab11fe88",
     "0x1F98431c8aD98523631AE4a59f267346ea31F984",
-    "0x35231d4c2D8B8ADcB5617A638A0c4548684c7C70", //Mailbox
-    "0x56f52c0A1ddcD557285f7CBc782D3d83096CE1Cc", //Polygon
+    "0xCC737a94FecaeC165AbCf12dED095BB13F037685", //Mailbox
+    "0x8f9C3888bFC8a5B25AED115A82eCbb788b196d2a", //Gas
+    421613,
   ];
   const otherChainVault = await deploy("otherChainVault", {
     from: deployer,

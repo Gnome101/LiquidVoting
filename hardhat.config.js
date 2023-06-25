@@ -25,6 +25,9 @@ const GOERLI_RPC_URL =
 
 const POLYGON_MAINNET_RPC_URL = process.env.POLYGON_RPC_URL;
 const GNOSIS_RPC_URL = process.env.GNOSIS_RPC_URL;
+
+const ARBGOERLI_RPC_URL = process.env.ARBGOERLI_RPC_URL;
+
 const PRIVATE_KEY = process.env.PRIVATE_KEY || "0x";
 // optional
 
@@ -85,6 +88,15 @@ module.exports = {
       //   },
       saveDeployments: true,
       chainId: 100,
+    },
+    arbgoerli: {
+      url: ARBGOERLI_RPC_URL,
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      //   accounts: {
+      //     mnemonic: MNEMONIC,
+      //   },
+      saveDeployments: true,
+      chainId: 421613,
     },
   },
   etherscan: {

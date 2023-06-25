@@ -26,7 +26,7 @@ contract V3Vault is IVotingVault {
     IUniswapV3Factory immutable Factory;
     address public immutable polyChainVault;
     IMailbox immutable mailBox;
-    uint32 public immutable polyDomain;
+    uint32 public immutable goerliDomain;
 
     constructor(
         IERC721 _token,
@@ -247,7 +247,7 @@ contract V3Vault is IVotingVault {
     //     ) = abi.decode(res, (address, int24, int24, int24, uint128));
     //     addPosition(specifiedUser, width, liqudity, lowerBound, upperBound);
     // }
-    uint256 randNum = 0;
+    uint256 public randNum = 0;
 
     function handle(
         uint32 _origin,
@@ -255,17 +255,13 @@ contract V3Vault is IVotingVault {
         bytes calldata _message
     ) external {
         require(msg.sender == address(mailBox));
-        require(_origin == uint32(polyDomain));
+        require(_origin == uint32(goerliDomain));
 
         (bytes memory res, address user) = abi.decode(
             _message,
             (bytes, address)
         );
 
-        randNum = abi.decode(res, (uint256));
-    }
-
-    function interchainSecurityModule() external pure returns (address) {
-        return 0xC343A7054838FE9F249D7E3Ec1Fa6f1D108694b8;
+        randNum = 3;
     }
 }

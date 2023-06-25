@@ -20,13 +20,11 @@ contract otherChainVault {
     uint24 immutable feeTier;
 
     //Hyplerlane stuff
-    address immutable mainVotingContract =
-        0x6F374ed9E54e961C5BeDFA468fB332e6ec5e68A1;
-    uint32 constant gnosisChainDomain = 100;
+
     IMailbox immutable mailBox;
     //IInterchainQueryRouter public immutable queryRouter;
     IInterchainGasPaymaster public immutable interchainGasPaymaster;
-
+    uint32 immutable foreignChainID;
     INonfungiblePositionManager immutable NFTPositionManager;
     IUniswapV3Factory immutable Factory;
 
@@ -37,9 +35,10 @@ contract otherChainVault {
         uint24 _feeTier,
         INonfungiblePositionManager _NFTPositionManager,
         IUniswapV3Factory _Factory,
-        address polyMailBoxAddy,
+        address mailBoxAddy,
         //address polyQueryAddy,
-        address polyGasAddy
+        address gasAddy,
+        uint32 _foreignChainID
     ) {
         token = _token;
         govToken = _govToken;
@@ -47,10 +46,9 @@ contract otherChainVault {
         feeTier = _feeTier;
         NFTPositionManager = _NFTPositionManager;
         Factory = _Factory;
-
-        //queryRouter = IInterchainQueryRouter(polyQueryAddy);
-        mailBox = IMailbox(polyMailBoxAddy);
-        interchainGasPaymaster = IInterchainGasPaymaster(polyGasAddy);
+        mailBox = IMailbox(mailBoxAddy);
+        interchainGasPaymaster = IInterchainGasPaymaster(gasAddy);
+        foreignChainID = _foreignChainID;
     }
 
     struct posInfo {
@@ -110,50 +108,66 @@ contract otherChainVault {
         (uint256 tokenId, uint128 liquidity, , ) = NFTPositionManager.mint(
             params
         );
-        sendPositionInfo(
-            msg.sender,
-            gnosisUser,
-            v3Info.width,
-            liquidity,
-            lowerBound,
-            upperBound,
-            0
-        );
+        // sendPositionInfo(
+        //     msg.sender,
+        //     gnosisUser,
+        //     v3Info.width,
+        //     liquidity,
+        //     lowerBound,
+        //     upperBound,
+        //     0
+        // );
     }
+
+    // function sendPositionInfo(
+    //     address sender,
+    //     address specifiedUser,
+    //     int24 width,
+    //     uint128 liquidty,
+    //     int24 lowerBound,
+    //     int24 upperBound,
+    //     uint256 gasAmount
+    // ) public {
+    //     bytes memory message = abi.encode(
+    //         specifiedUser,
+    //         lowerBound,
+    //         upperBound,
+    //         width,
+    //         liquidty
+    //     );
+
+    //     bytes32 _messageId = mailBox.dispatch(
+    //         gnosisChainDomain,
+    //         addressToBytes32(mainVotingContract),
+    //         abi.encode(message, sender)
+    //         //abi.encode(message)
+    //     );
+    // }
 
     function sendPositionInfo(
         address sender,
-        address specifiedUser,
-        int24 width,
-        uint128 liquidty,
-        int24 lowerBound,
-        int24 upperBound,
+        address destination,
         uint256 gasAmount
-    ) public {
-        bytes memory message = abi.encode(
-            specifiedUser,
-            lowerBound,
-            upperBound,
-            width,
-            liquidty
-        );
+    ) public payable {
+        bytes memory message = abi.encode(912);
 
         bytes32 _messageId = mailBox.dispatch(
-            gnosisChainDomain,
-            addressToBytes32(mainVotingContract),
+            foreignChainID,
+            addressToBytes32(destination),
             abi.encode(message, sender)
             //abi.encode(message)
+        );
+
+        interchainGasPaymaster.payForGas{value: msg.value}(
+            _messageId,
+            foreignChainID,
+            gasAmount,
+            msg.sender
         );
     }
 
-    function sendPositionInfo(address sender, uint256 gasAmount) public {
-        bytes memory message = abi.encode(912);
-        bytes32 _messageId = mailBox.dispatch(
-            gnosisChainDomain,
-            addressToBytes32(mainVotingContract),
-            abi.encode(message, sender)
-            //abi.encode(message)
-        );
+    function transferBack(address payable user) public {
+        user.transfer(address(this).balance);
     }
 
     function addressToBytes32(address _addr) internal pure returns (bytes32) {

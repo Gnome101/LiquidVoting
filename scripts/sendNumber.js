@@ -13,10 +13,17 @@ async function main() {
   accounts = await ethers.getSigners(); // could also do with getNamedAccounts
   deployer = accounts[0];
 
-  const V3Vault = await ethers.getContract("V3Vault");
-
-  const randNum = await V3Vault.randNum();
-  console.log(randNum.toString());
+  const otherVault = await ethers.getContract("otherChainVault");
+  const V3VaultAddy = "0x5Da8F1Cdb111AF8eeECaa097B7B92869dF62CFF4";
+  // address sender,
+  // address destination,
+  // uint256 gasAmount,
+  // uint256 gasCount
+  const value = ethers.utils.parseEther("0.002");
+  console.log(value.toString());
+  await otherVault.sendPositionInfo(deployer.address, V3VaultAddy, "100000", {
+    value: ethers.utils.parseEther("0.002"),
+  });
 }
 
 main().catch((error) => {

@@ -80,9 +80,9 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     3000, //Fee tier
     "0xc36442b4a4522e871399cd717abdd847ab11fe88", //NFT Position Manager
     "0x1F98431c8aD98523631AE4a59f267346ea31F984", //Factory
-    "0xE8fF097481A54Ea1730c8828cf6B8F5eB3f64D85", //Vault on polygon
-    "0x35231d4c2D8B8ADcB5617A638A0c4548684c7C70", //Factory
-    "137", //Polygon Domain
+    "0xB59963E43D22b68e92011993ac066CfCCDb1a771", //Vault on goerli
+    "0x35231d4c2D8B8ADcB5617A638A0c4548684c7C70", //Mailbox
+    "5", //Goerli Domain
   ];
   const V3Vault = await deploy("V3Vault", {
     from: deployer,
