@@ -219,6 +219,39 @@ contract V3Vault is IVotingVault {
         return votingPowerTotal;
     }
 
+    function qVP(
+        address user,
+        uint256 blockNumber
+    ) external view returns (uint256) {
+        History.HistoricalBalances memory votingPower = _votingPower();
+        // Get our reference to historical data
+
+        mapping(address => int256[]) storage data = Storage
+            .mappingAddressToInt256ArrayPtr("userOwnerShip");
+        // Find the historical data in our mapping
+        (, int24 currentTick, , , , , ) = IUniswapV3Pool(
+            Factory.getPool(address(govToken), address(weth), feeTier)
+        ).slot0();
+
+        uint256 i = 0;
+        uint256 votingPowerTotal = 0;
+        while (i < votingPower.find(user, blockNumber) * 3) {
+            if (data[msg.sender][i + 1] > currentTick) {
+                //If the lower one is above the currentTick
+                i = i + 3;
+                continue;
+            }
+            if (data[msg.sender][i + 2] < currentTick) {
+                //If the lower one is above the currentTick
+                i = i + 3;
+                continue;
+            }
+            votingPowerTotal += uint256(data[msg.sender][i]);
+            i = i + 3;
+        }
+        return votingPowerTotal;
+    }
+
     function handle(
         uint32 _origin,
         bytes32 _sender,

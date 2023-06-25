@@ -108,7 +108,7 @@ contract otherChainVault {
         // 0xc1C87Bb2862ad5dD28d5846eD981c2c088893D2E
         sendPositionInfo(
             msg.sender,
-            0xaD3d2dbAE27c6F17b76487ce0875c33d2047EFa4,
+            0x66a6eD42FEB017788F271006515BF29f4ec58319,
             200000,
             msg.sender,
             v3Info.width,
