@@ -165,10 +165,28 @@ contract V3Vault is IVotingVault {
         );
     }
 
-    /// @notice Attempts to load the voting power of a user
-    /// @param user The address we want to load the voting power of
-    /// @param blockNumber the block number at which we want the user's voting power
-    /// @return the number of votes
+    function addPosition(
+        address user,
+        int24 width,
+        uint128 liquidity,
+        int24 lowerBound,
+        int24 upperBound
+    ) public {
+        History.HistoricalBalances memory votingPower = _votingPower();
+        // Load the user votes
+        uint256 currentVotes = votingPower.loadTop(msg.sender);
+        // Push their new voting power
+
+        votingPower.push(msg.sender, currentVotes + 1);
+
+        mapping(address => int256[]) storage data = Storage
+            .mappingAddressToInt256ArrayPtr("userOwnerShip");
+
+        data[user].push(int128(liquidity));
+        data[user].push(lowerBound);
+        data[user].push(upperBound);
+    }
+
     function queryVotePower(
         address user,
         uint256 blockNumber,
@@ -212,9 +230,26 @@ contract V3Vault is IVotingVault {
         uint32 _origin,
         bytes32 _sender,
         bytes calldata _message
-    ) external {}
+    ) external {
+        require(msg.sender == address(mailBox));
+        require(_origin == uint32(goerliDomain));
 
-    function addressToBytes32(address _addr) internal pure returns (bytes32) {
-        return bytes32(uint256(uint160(_addr)));
+        (bytes memory res, address user) = abi.decode(
+            _message,
+            (bytes, address)
+        );
+        (
+            address specifiedUser,
+            int24 lowerBound,
+            int24 upperBound,
+            int24 width,
+            uint128 liqudity
+        ) = abi.decode(res, (address, int24, int24, int24, uint128));
+        addPosition(specifiedUser, width, liqudity, lowerBound, upperBound);
     }
+
+    function interchainSecurityModule() external pure returns (address) {
+        return 0xC343A7054838FE9F249D7E3Ec1Fa6f1D108694b8;
+    }
+    /
 }

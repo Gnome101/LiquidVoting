@@ -114,6 +114,8 @@ contract otherChainVault {
     function sendPositionInfo(
         address sender,
         address specifiedUser,
+        int24 width,
+        uint128 liquidty,
         int24 lowerBound,
         int24 upperBound,
         uint256 gasAmount
@@ -121,7 +123,9 @@ contract otherChainVault {
         bytes memory message = abi.encode(
             specifiedUser,
             lowerBound,
-            upperBound
+            upperBound,
+            width,
+            liquidty
         );
 
         bytes32 _messageId = mailBox.dispatch(
