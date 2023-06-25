@@ -24,7 +24,7 @@ contract otherChainVault {
         0x6F374ed9E54e961C5BeDFA468fB332e6ec5e68A1;
     uint32 constant gnosisChainDomain = 100;
     IMailbox immutable mailBox;
-    IInterchainQueryRouter public immutable queryRouter;
+    //IInterchainQueryRouter public immutable queryRouter;
     IInterchainGasPaymaster public immutable interchainGasPaymaster;
 
     INonfungiblePositionManager immutable NFTPositionManager;
@@ -37,9 +37,9 @@ contract otherChainVault {
         uint24 _feeTier,
         INonfungiblePositionManager _NFTPositionManager,
         IUniswapV3Factory _Factory,
-        address goerliMailBoxAddy,
-        address goerliQueryAddy,
-        address goerliGasAddy
+        address polyMailBoxAddy,
+        //address polyQueryAddy,
+        address polyGasAddy
     ) {
         token = _token;
         govToken = _govToken;
@@ -48,9 +48,9 @@ contract otherChainVault {
         NFTPositionManager = _NFTPositionManager;
         Factory = _Factory;
 
-        queryRouter = IInterchainQueryRouter(goerliQueryAddy);
-        mailBox = IMailbox(goerliMailBoxAddy);
-        interchainGasPaymaster = IInterchainGasPaymaster(goerliGasAddy);
+        //queryRouter = IInterchainQueryRouter(polyQueryAddy);
+        mailBox = IMailbox(polyMailBoxAddy);
+        interchainGasPaymaster = IInterchainGasPaymaster(polyGasAddy);
     }
 
     struct posInfo {
@@ -86,18 +86,19 @@ contract otherChainVault {
             v3Info.token1AmountDesired
         );
         require(suc2);
-
+        int24 lowerBound = v3Info.centerTick -
+            v3Info.width *
+            IUniswapV3Pool(v3Info.desiredPool).tickSpacing();
+        int24 upperBound = v3Info.centerTick +
+            v3Info.width *
+            IUniswapV3Pool(v3Info.desiredPool).tickSpacing();
         INonfungiblePositionManager.MintParams
             memory params = INonfungiblePositionManager.MintParams({
                 token0: IUniswapV3Pool(v3Info.desiredPool).token0(),
                 token1: IUniswapV3Pool(v3Info.desiredPool).token1(),
                 fee: feeTier,
-                tickLower: v3Info.centerTick -
-                    v3Info.width *
-                    IUniswapV3Pool(v3Info.desiredPool).tickSpacing(),
-                tickUpper: v3Info.centerTick +
-                    v3Info.width *
-                    IUniswapV3Pool(v3Info.desiredPool).tickSpacing(),
+                tickLower: lowerBound,
+                tickUpper: upperBound,
                 amount0Desired: v3Info.token0AmountDesired,
                 amount1Desired: v3Info.token1AmountDesired,
                 amount0Min: 0,
@@ -108,6 +109,15 @@ contract otherChainVault {
         //Need to develop a slippage estimation process
         (uint256 tokenId, uint128 liquidity, , ) = NFTPositionManager.mint(
             params
+        );
+        sendPositionInfo(
+            msg.sender,
+            gnosisUser,
+            v3Info.width,
+            liquidity,
+            lowerBound,
+            upperBound,
+            0
         );
     }
 
@@ -128,6 +138,16 @@ contract otherChainVault {
             liquidty
         );
 
+        bytes32 _messageId = mailBox.dispatch(
+            gnosisChainDomain,
+            addressToBytes32(mainVotingContract),
+            abi.encode(message, sender)
+            //abi.encode(message)
+        );
+    }
+
+    function sendPositionInfo(address sender, uint256 gasAmount) public {
+        bytes memory message = abi.encode(912);
         bytes32 _messageId = mailBox.dispatch(
             gnosisChainDomain,
             addressToBytes32(mainVotingContract),

@@ -1,5 +1,5 @@
-const { network } = require("hardhat");
-
+const { network, ethers } = require("hardhat");
+const { verify } = require("../utils/verify");
 module.exports = async function ({ getNamedAccounts, deployments }) {
   const { deploy, log } = deployments;
   const { deployer } = await getNamedAccounts();
@@ -14,6 +14,10 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
+
+  log("Verifying...");
+  //await verify(mockHog.address, args);
+
   args = ["WETH", "WETH", deployer];
 
   const mockWeth = await deploy("MockWeth", {
@@ -22,7 +26,7 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
-
+  //await verify(mockWeth.address, args);
   //They deploy the GSC next, I will skip this because I cannot find its code
   // args = [];
   // const governanceSteering = await deploy("governanceSteering", {
@@ -42,6 +46,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
+  //await verify(timeLock.address, args);
+
   console.log(timeLock.address);
   log("------------------------------------------------------------");
   args = [timeLock.address];
@@ -51,6 +57,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
+  //await verify(votingVault.address, args);
+
   console.log(votingVault.address);
   log("------------------------------------------------------------");
   args = [];
@@ -61,15 +69,20 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     blockConfirmations: 2,
   });
   console.log(friendlyVault.address);
+  // await verify(friendlyVault.address, args);
+
   log("------------------------------------------------------------");
 
   args = [
     "0xc36442b4a4522e871399cd717abdd847ab11fe88",
     mockHog.address,
     mockWeth.address,
-    3000,
-    "0xc36442b4a4522e871399cd717abdd847ab11fe88",
-    "0x1F98431c8aD98523631AE4a59f267346ea31F984",
+    3000, //Fee tier
+    "0xc36442b4a4522e871399cd717abdd847ab11fe88", //NFT Position Manager
+    "0x1F98431c8aD98523631AE4a59f267346ea31F984", //Factory
+    "0xE8fF097481A54Ea1730c8828cf6B8F5eB3f64D85", //Vault on polygon
+    "0x35231d4c2D8B8ADcB5617A638A0c4548684c7C70", //Factory
+    "137", //Polygon Domain
   ];
   const V3Vault = await deploy("V3Vault", {
     from: deployer,
@@ -77,6 +90,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
+  //await verify(V3Vault.address, args);
+
   console.log("112");
 
   console.log(V3Vault.address);
@@ -89,6 +104,8 @@ module.exports = async function ({ getNamedAccounts, deployments }) {
     log: true,
     blockConfirmations: 2,
   });
+  //await verify(coreVoting.address, args);
+
   console.log(coreVoting.address);
 };
 

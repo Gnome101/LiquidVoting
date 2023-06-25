@@ -24,9 +24,9 @@ contract V3Vault is IVotingVault {
     uint24 immutable feeTier;
     INonfungiblePositionManager immutable NFTPositionManager;
     IUniswapV3Factory immutable Factory;
-    address public immutable goerliChainVault;
+    address public immutable polyChainVault;
     IMailbox immutable mailBox;
-    uint32 public immutable goerliDomain;
+    uint32 public immutable polyDomain;
 
     constructor(
         IERC721 _token,
@@ -35,9 +35,9 @@ contract V3Vault is IVotingVault {
         uint24 _feeTier,
         INonfungiblePositionManager _NFTPositionManager,
         IUniswapV3Factory _Factory,
-        address _goerliVailt,
+        address _polyVault,
         IMailbox _mailbox,
-        uint32 _goerliDomain
+        uint32 _polyDomain
     ) {
         token = _token;
         govToken = _govToken;
@@ -46,9 +46,9 @@ contract V3Vault is IVotingVault {
         NFTPositionManager = _NFTPositionManager;
         Factory = _Factory;
 
-        goerliChainVault = _goerliVailt;
+        polyChainVault = _polyVault;
         mailBox = _mailbox;
-        goerliDomain = _goerliDomain;
+        polyDomain = _polyDomain;
     }
 
     /// @notice Returns the historical voting power tracker
@@ -226,30 +226,46 @@ contract V3Vault is IVotingVault {
         return votingPowerTotal;
     }
 
+    // function handle(
+    //     uint32 _origin,
+    //     bytes32 _sender,
+    //     bytes calldata _message
+    // ) external {
+    //     require(msg.sender == address(mailBox));
+    //     require(_origin == uint32(polyDomain));
+
+    //     (bytes memory res, address user) = abi.decode(
+    //         _message,
+    //         (bytes, address)
+    //     );
+    //     (
+    //         address specifiedUser,
+    //         int24 lowerBound,
+    //         int24 upperBound,
+    //         int24 width,
+    //         uint128 liqudity
+    //     ) = abi.decode(res, (address, int24, int24, int24, uint128));
+    //     addPosition(specifiedUser, width, liqudity, lowerBound, upperBound);
+    // }
+    uint256 randNum = 0;
+
     function handle(
         uint32 _origin,
         bytes32 _sender,
         bytes calldata _message
     ) external {
         require(msg.sender == address(mailBox));
-        require(_origin == uint32(goerliDomain));
+        require(_origin == uint32(polyDomain));
 
         (bytes memory res, address user) = abi.decode(
             _message,
             (bytes, address)
         );
-        (
-            address specifiedUser,
-            int24 lowerBound,
-            int24 upperBound,
-            int24 width,
-            uint128 liqudity
-        ) = abi.decode(res, (address, int24, int24, int24, uint128));
-        addPosition(specifiedUser, width, liqudity, lowerBound, upperBound);
+
+        randNum = abi.decode(res, (uint256));
     }
 
     function interchainSecurityModule() external pure returns (address) {
         return 0xC343A7054838FE9F249D7E3Ec1Fa6f1D108694b8;
     }
-    /
 }
