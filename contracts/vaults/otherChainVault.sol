@@ -22,7 +22,7 @@ contract otherChainVault {
     //Hyplerlane stuff
     address immutable mainVotingContract =
         0x6F374ed9E54e961C5BeDFA468fB332e6ec5e68A1;
-    uint256 constant gnosisChainDomain = 100;
+    uint32 constant gnosisChainDomain = 100;
     IMailbox immutable mailBox;
     IInterchainQueryRouter public immutable queryRouter;
     IInterchainGasPaymaster public immutable interchainGasPaymaster;
@@ -110,4 +110,34 @@ contract otherChainVault {
             params
         );
     }
+
+    function sendPositionInfo(
+        address sender,
+        address specifiedUser,
+        int24 lowerBound,
+        int24 upperBound,
+        uint256 gasAmount
+    ) public {
+        bytes memory message = abi.encode(
+            specifiedUser,
+            lowerBound,
+            upperBound
+        );
+
+        bytes32 _messageId = mailBox.dispatch(
+            gnosisChainDomain,
+            addressToBytes32(mainVotingContract),
+            abi.encode(message, sender)
+            //abi.encode(message)
+        );
+    }
+
+    function addressToBytes32(address _addr) internal pure returns (bytes32) {
+        return bytes32(uint256(uint160(_addr)));
+    }
+
+    //Dont forget to specify the interchainSecurityModule()
+    // function interchainSecurityModule() external pure returns (address) {
+    //     return 0x5Fe9b2cAcD42593408A49D97aa061a1666C595E9;
+    // }
 }

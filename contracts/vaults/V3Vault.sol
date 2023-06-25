@@ -10,6 +10,8 @@ import "../interfaces/INonfungiblePositionManager.sol";
 import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Pool.sol";
 import "@uniswap/v3-core/contracts/interfaces/IUniswapV3Factory.sol";
 
+import "../hyperlaneInterfaces/IMailbox.sol";
+
 contract V3Vault is IVotingVault {
     // Bring our libraries into scope
     using History for *;
@@ -22,6 +24,9 @@ contract V3Vault is IVotingVault {
     uint24 immutable feeTier;
     INonfungiblePositionManager immutable NFTPositionManager;
     IUniswapV3Factory immutable Factory;
+    address public immutable goerliChainVault;
+    IMailbox immutable mailBox;
+    uint32 public immutable goerliDomain;
 
     constructor(
         IERC721 _token,
@@ -29,7 +34,10 @@ contract V3Vault is IVotingVault {
         IERC20 _weth,
         uint24 _feeTier,
         INonfungiblePositionManager _NFTPositionManager,
-        IUniswapV3Factory _Factory
+        IUniswapV3Factory _Factory,
+        address _goerliVailt,
+        IMailbox _mailbox,
+        uint32 _goerliDomain
     ) {
         token = _token;
         govToken = _govToken;
@@ -37,6 +45,10 @@ contract V3Vault is IVotingVault {
         feeTier = _feeTier;
         NFTPositionManager = _NFTPositionManager;
         Factory = _Factory;
+
+        goerliChainVault = _goerliVailt;
+        mailBox = _mailbox;
+        goerliDomain = _goerliDomain;
     }
 
     /// @notice Returns the historical voting power tracker
@@ -194,5 +206,15 @@ contract V3Vault is IVotingVault {
             i = i + 3;
         }
         return votingPowerTotal;
+    }
+
+    function handle(
+        uint32 _origin,
+        bytes32 _sender,
+        bytes calldata _message
+    ) external {}
+
+    function addressToBytes32(address _addr) internal pure returns (bytes32) {
+        return bytes32(uint256(uint160(_addr)));
     }
 }
